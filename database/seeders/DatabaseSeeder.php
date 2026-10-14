@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -54,5 +55,18 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
             EarbudsSeeder::class,
         ]);
+
+        // Photo par défaut aux catégories sans image (cat-1..5, en boucle).
+        // Ne touche jamais aux images envoyées depuis l'admin.
+        $fallbacks = [
+            'categories/cat-1.jpg',
+            'categories/cat-2.jpg',
+            'categories/cat-3.jpg',
+            'categories/cat-4.jpg',
+            'categories/cat-5.jpg',
+        ];
+        Category::whereNull('image')->orderBy('id')->get()->each(
+            fn ($category, $i) => $category->update(['image' => $fallbacks[$i % count($fallbacks)]])
+        );
     }
 }

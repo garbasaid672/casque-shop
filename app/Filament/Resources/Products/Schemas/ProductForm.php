@@ -87,6 +87,8 @@ class ProductForm
                     ->label('Photos')
                     ->image()
                     ->multiple()
+                    ->disk('public')
+                    ->visibility('public')
                     ->directory('products')
                     ->maxSize(2048)
                     ->columnSpanFull(),

@@ -39,6 +39,8 @@ class CategoryForm
 
                 FileUpload::make('image')
                     ->image()
+                    ->disk('public')
+                    ->visibility('public')
                     ->directory('categories')
                     ->maxSize(2048)
                     ->columnSpanFull(),
