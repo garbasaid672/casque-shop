@@ -35,6 +35,20 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        // Compte admin perso via variables d'environnement Render (recréé à chaque deploy).
+        // Définir ADMIN_EMAIL + ADMIN_PASSWORD dans Environment, jamais dans Git.
+        if ($adminEmail = env('ADMIN_EMAIL')) {
+            User::updateOrCreate(
+                ['email' => $adminEmail],
+                [
+                    'name' => env('ADMIN_NAME', 'Admin'),
+                    'password' => env('ADMIN_PASSWORD', 'password'),
+                    'is_admin' => true,
+                    'email_verified_at' => now(),
+                ]
+            );
+        }
+
         // Lance le seeder des produits et catégories
         $this->call([
             ProductSeeder::class,
