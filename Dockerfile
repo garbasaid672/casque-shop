@@ -2,9 +2,12 @@
 FROM php:8.3-cli
 
 # Dépendances système + extensions PHP pour Laravel + Filament + SQLite/Postgres/MySQL
-RUN apt-get update && apt-get install -y \
-    git curl unzip zip sqlite3 libpng-dev libonig-dev libxml2-dev libzip-dev libpq-dev \
-    && docker-php-ext-install pdo pdo_mysql pdo_pgsql pdo_sqlite mbstring exif pcntl bcmath gd zip \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git curl unzip zip sqlite3 libsqlite3-dev \
+    libpng-dev libjpeg-dev libfreetype6-dev \
+    libonig-dev libxml2-dev libzip-dev libpq-dev libicu-dev libcurl4-openssl-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) pdo_mysql pdo_pgsql pdo_sqlite mbstring exif pcntl bcmath gd zip intl opcache \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Node 20 pour Vite
