@@ -108,8 +108,8 @@ class AppServiceProvider extends ServiceProvider
                         font-weight: 700;
                     }
 
-                    /* ===== Marque GMS Audio en couleur (page de connexion admin) ===== */
-                    .fi-simple-layout .fi-logo {
+                    /* ===== Marque GMS Audio en couleur (connexion + dashboard admin) ===== */
+                    .fi-logo {
                         background: linear-gradient(90deg, #0284c7 0%, #2563eb 45%, #f59e0b 100%);
                         -webkit-background-clip: text;
                         background-clip: text;

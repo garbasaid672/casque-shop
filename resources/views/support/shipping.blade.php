@@ -20,7 +20,7 @@
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <a href="{{ route('home') }}" class="text-2xl font-extrabold text-sky-700 dark:text-sky-400">
+                    <a href="{{ route('home') }}" class="text-2xl font-extrabold bg-gradient-to-r from-sky-600 via-blue-600 to-amber-500 bg-clip-text text-transparent">
                         {{ site_name() }}
                     </a>
                 </div>
@@ -94,7 +94,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <!-- Infos marque -->
                 <div>
-                    <h3 class="text-white font-bold text-lg mb-4">{{ site_name() }}</h3>
+                    <h3 class="font-bold text-lg mb-4 bg-gradient-to-r from-sky-400 via-blue-400 to-amber-400 bg-clip-text text-transparent">{{ site_name() }}</h3>
                     <p class="text-sm text-slate-400">Votre spécialiste casques audio de qualité.</p>
                 </div>
                 <!-- Liens rapides -->
