@@ -15,6 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Render termine TLS au proxy : faire confiance aux en-têtes X-Forwarded-*
+        // sinon Laravel génère du http, le cookie de session est perdu et le login boucle.
+        $middleware->trustProxies(at: '*');
         // Le webhook KkiaPay appelle l'app sans session : pas de CSRF
         $middleware->validateCsrfTokens(except: ['kkiapay/webhook']);
     })
