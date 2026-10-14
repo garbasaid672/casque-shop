@@ -31,6 +31,8 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader \
     && npm install \
     && npm run build \
+    && php artisan filament:assets \
+    && php artisan filament:optimize \
     && mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views bootstrap/cache database \
     && touch database/database.sqlite \
     && chown -R www-data:www-data storage bootstrap/cache database \
