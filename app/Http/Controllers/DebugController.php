@@ -22,6 +22,7 @@ class DebugController extends Controller
         return response()->json([
             'db' => config('database.default'),
             'users_count' => User::count(),
+            'categories_count' => \App\Models\Category::count(),
             'products_count' => Product::count(),
             'demo' => $demo
                 ? ['exists' => true, 'is_admin' => (bool) $demo->is_admin, 'pwd_password_ok' => Hash::check('password', $demo->password)]
