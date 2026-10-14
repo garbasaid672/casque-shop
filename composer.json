@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.3",
         "blade-ui-kit/blade-heroicons": "*",
+        "doctrine/dbal": "*",
         "fakerphp/faker": "*",
         "filament/filament": "*",
         "laravel/framework": "^13.17",

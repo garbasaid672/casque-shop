@@ -37,8 +37,8 @@ class Product extends Model
 
     // Conversion automatique des types
     protected $casts = [
-        'price' => 'decimal:2',
-        'compare_at_price' => 'decimal:2',
+        'price' => 'decimal:4',
+        'compare_at_price' => 'decimal:4',
         'stock_quantity' => 'integer',
         'low_stock_threshold' => 'integer',
         'images' => 'array',

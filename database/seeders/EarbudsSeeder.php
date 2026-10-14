@@ -18,7 +18,7 @@ class EarbudsSeeder extends Seeder
         // [nom, slug, marque, modèle, couleur, prix EUR, prix barré EUR, stock, vedette, catégorie, image, description, fonctionnalités]
         $items = [
             // ----- Casques sans fil -----
-            ['Apple AirPods 3', 'apple-airpods-3', 'Apple', 'AirPods 3', 'Blanc', 43.85, null, 40, false, 'Casques sans fil', 'earbuds-2.jpg',
+            ['Apple AirPods 3', 'apple-airpods-3', 'Apple', 'AirPods 3', 'Blanc', 23.0769, null, 40, false, 'Casques sans fil', 'earbuds-2.jpg',
                 'Écouteurs sans fil Apple avec audio spatial personnalisé, résistance à l’eau et 30 heures d’autonomie totale avec le boîtier MagSafe.',
                 ['Audio spatial personnalisé', 'Bluetooth 5.3', 'Résistance à l’eau IPX4', '30h d’autonomie totale', 'Charge MagSafe']],
             ['Oraimo FreePods Lite', 'oraimo-freepods-lite', 'Oraimo', 'FreePods Lite', 'Noir', 6.92, 8.31, 60, false, 'Casques sans fil', 'earbuds-1.jpg',
@@ -35,7 +35,7 @@ class EarbudsSeeder extends Seeder
                 ['Réduction de bruit active', 'Bluetooth 5.3', '30h d’autonomie totale', 'Confort ergonomique']],
 
             // ----- Casques à réduction de bruit -----
-            ['Apple AirPods Pro 2', 'apple-airpods-pro-2', 'Apple', 'AirPods Pro 2', 'Blanc', 62.31, 69.23, 25, true, 'Casques à réduction de bruit', 'earbuds-3.jpg',
+            ['Apple AirPods Pro 2', 'apple-airpods-pro-2', 'Apple', 'AirPods Pro 2', 'Blanc', 15.3846, null, 25, true, 'Casques à réduction de bruit', 'earbuds-3.jpg',
                 'Apple AirPods Pro 2 avec réduction de bruit deux fois plus puissante, mode transparence adaptatif et boîtier USB-C avec haut-parleur.',
                 ['Réduction de bruit active x2', 'Mode transparence adaptatif', 'Audio spatial personnalisé', 'Boîtier USB-C', '30h d’autonomie totale']],
             ['Oraimo FreePods Pro', 'oraimo-freepods-pro', 'Oraimo', 'FreePods Pro', 'Noir', 12.92, 14.77, 45, true, 'Casques à réduction de bruit', 'ofp-pro.jpg',
@@ -120,6 +120,16 @@ class EarbudsSeeder extends Seeder
                 'published_at' => $now,
                 ]
             );
+        }
+
+        // Prix boutique imposés : appliqués aussi aux lignes déjà existantes
+        // (15.3846 × 650 = 10 000 FCFA, 23.0769 × 650 = 15 000 FCFA).
+        // Sans prix barré : l'ancien ne veut plus rien dire à ces tarifs.
+        foreach (['apple-airpods-pro-2' => 15.3846, 'apple-airpods-3' => 23.0769] as $slug => $price) {
+            Product::where('slug', $slug)->update([
+                'price' => $price,
+                'compare_at_price' => null,
+            ]);
         }
     }
 }
