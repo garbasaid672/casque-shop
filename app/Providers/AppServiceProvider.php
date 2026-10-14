@@ -54,7 +54,7 @@ class AppServiceProvider extends ServiceProvider
                     .fi-simple-main-ctn {
                         margin: 0 auto !important;
                         width: 100% !important;
-                        max-width: 28rem !important;
+                        max-width: 32rem !important;
                         display: flex !important;
                         flex-direction: column !important;
                         align-items: center !important;
@@ -62,7 +62,7 @@ class AppServiceProvider extends ServiceProvider
                     }
                     .fi-simple-main {
                         width: 100% !important;
-                        max-width: 28rem !important;
+                        max-width: 32rem !important;
                         margin: 0 auto !important;
                         background: rgba(255, 255, 255, 0.97) !important;
                         border-radius: 1.25rem !important;
