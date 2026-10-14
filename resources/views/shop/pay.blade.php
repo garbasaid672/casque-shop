@@ -105,10 +105,15 @@
             });
 
             // Succès côté widget : on fait vérifier la transaction par le serveur
-            // (ne jamais faire confiance au seul widget : anti-fraude)
-            addSuccessListener(async (response) => {
+            // (ne jamais faire confiance au seul widget : anti-fraude).
+            // Si KkiaPay n'a pas encore finalisé (Mobile Money en attente),
+            // on revérifie tout seul 3 fois à 4 secondes d'intervalle.
+            addSuccessListener((response) => {
                 document.getElementById('pay-loading').classList.remove('hidden');
+                verifyPayment(response.transactionId, 0);
+            });
 
+            async function verifyPayment(transactionId, attempt) {
                 try {
                     const res = await fetch(verifyUrl, {
                         method: 'POST',
@@ -117,19 +122,29 @@
                             'Accept': 'application/json',
                             'X-CSRF-TOKEN': @json(csrf_token()),
                         },
-                        body: JSON.stringify({ transactionId: response.transactionId }),
+                        body: JSON.stringify({ transactionId: transactionId }),
                     });
                     const data = await res.json();
 
                     if (data.ok) {
                         window.location.href = data.redirect;
+                    } else if (data.retry && attempt < 3) {
+                        showInfo(data.message || 'Paiement en attente de validation...');
+                        setTimeout(() => verifyPayment(transactionId, attempt + 1), 4000);
                     } else {
                         showError(data.message || 'Paiement non confirmé.');
                     }
                 } catch (e) {
                     showError('Vérification impossible, réessayez.');
                 }
-            });
+            }
+
+            function showInfo(message) {
+                document.getElementById('pay-error').classList.add('hidden');
+                const loading = document.getElementById('pay-loading');
+                loading.textContent = message;
+                loading.classList.remove('hidden');
+            }
 
             addFailedListener((error) => {
                 showError((error && error.failureMessage) || 'Le paiement a échoué ou a été annulé.');

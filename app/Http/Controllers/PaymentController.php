@@ -59,9 +59,18 @@ class PaymentController extends Controller
             ]);
         }
 
+        // Message précis selon la cause (le client réessaie tout seul si en attente)
+        $reason = $kkiapay->confirmFailureReason($order->fresh(), $transaction);
+
         return response()->json([
             'ok' => false,
-            'message' => 'Paiement non confirmé par KkiaPay.',
+            'retry' => in_array($reason, ['pending'], true),
+            'message' => match ($reason) {
+                'pending' => 'Paiement en attente de validation sur votre téléphone, on revérifie...',
+                'failed' => 'Le paiement a échoué ou a été annulé côté KkiaPay.',
+                'amount' => 'Montant reçu insuffisant, contactez la boutique.',
+                default => 'Paiement non confirmé par KkiaPay.',
+            },
         ], 422);
     }
 

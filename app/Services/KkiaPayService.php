@@ -73,13 +73,43 @@ class KkiaPayService
     // Idempotent : une commande déjà payée reste payée sans double traitement.
     public function confirmOrderPayment(Order $order, array $transaction): bool
     {
-        if ($order->payment_status === 'paid') {
-            return true;
+        return $this->confirmFailureReason($order, $transaction) === 'success';
+    }
+
+    // Cherche un champ (status, amount, transactionId...) à la racine de la
+    // réponse ou dans les sous-tableaux 'transaction' / 'data' (format API variable).
+    public function transactionField(array $transaction, array $keys): mixed
+    {
+        foreach ($keys as $key) {
+            if (array_key_exists($key, $transaction)) {
+                return $transaction[$key];
+            }
+        }
+        foreach (['transaction', 'data'] as $nested) {
+            if (isset($transaction[$nested]) && is_array($transaction[$nested])) {
+                foreach ($keys as $key) {
+                    if (array_key_exists($key, $transaction[$nested])) {
+                        return $transaction[$nested][$key];
+                    }
+                }
+            }
         }
 
-        $status = strtoupper((string) ($transaction['status'] ?? ''));
-        $amount = (int) ($transaction['amount'] ?? 0);
-        $txId = $transaction['transactionId'] ?? null;
+        return null;
+    }
+
+    // Classifie le résultat : 'success', 'pending' (à réessayer), 'failed',
+    // 'amount' (montant insuffisant) ou 'unknown' (transaction introuvable).
+    // La validation elle-même applique les changements et envoie l'email.
+    public function confirmFailureReason(Order $order, array $transaction): string
+    {
+        if ($order->payment_status === 'paid') {
+            return 'success';
+        }
+
+        $status = strtoupper(trim((string) ($this->transactionField($transaction, ['status']) ?? '')));
+        $amount = (int) ($this->transactionField($transaction, ['amount']) ?? 0);
+        $txId = $this->transactionField($transaction, ['transactionId', 'transaction_id', 'id']);
 
         // Succès : statut SUCCESS + référence + montant couvrant le total (XOF)
         if ($status === 'SUCCESS' && filled($txId) && $amount >= (int) $order->total) {
@@ -107,15 +137,49 @@ class KkiaPayService
                 ]);
             }
 
-            return true;
+            return 'success';
         }
 
         // Échec définitif côté KkiaPay : on le reflète sur la commande
-        if (in_array($status, ['FAILED', 'REVERTED'], true)) {
+        if (in_array($status, ['FAILED', 'REVERTED', 'CANCELLED', 'CANCELED'], true)) {
             $order->update([
                 'payment_status' => 'failed',
                 'payment_reference' => $txId,
             ]);
+
+            Log::warning('KkiaPay : paiement refusé', [
+                'order' => $order->order_number,
+                'status' => $status,
+                'amount' => $amount,
+                'expected' => (int) $order->total,
+            ]);
+
+            return 'failed';
+        }
+
+        // Paiement initié mais pas encore finalisé (Mobile Money en attente
+        // de validation sur le téléphone) : le client peut réessayer.
+        if (in_array($status, ['PENDING', 'PROCESSING', 'INITIATED', 'WAITING'], true)) {
+            Log::info('KkiaPay : paiement en attente', [
+                'order' => $order->order_number,
+                'status' => $status,
+                'amount' => $amount,
+                'expected' => (int) $order->total,
+            ]);
+
+            return 'pending';
+        }
+
+        // Succès apparent mais montant insuffisant : possible fraude ou erreur
+        if ($status === 'SUCCESS') {
+            Log::warning('KkiaPay : montant insuffisant', [
+                'order' => $order->order_number,
+                'status' => $status,
+                'amount' => $amount,
+                'expected' => (int) $order->total,
+            ]);
+
+            return 'amount';
         }
 
         Log::warning('KkiaPay : paiement non confirmé', [
@@ -125,6 +189,6 @@ class KkiaPayService
             'expected' => (int) $order->total,
         ]);
 
-        return false;
+        return 'unknown';
     }
 }
