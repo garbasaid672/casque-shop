@@ -53,6 +53,10 @@ class AdminDashboardTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('GMS Audio');
+        // Même habillage que la page client (/connexion)
+        $response->assertSee('Bienvenue');
+        $response->assertSee("Retour à l'accueil", false);
+        $response->assertSee('Se connecter');
     }
 
     public function test_dashboard_sidebar_menus(): void
