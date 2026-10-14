@@ -1,8 +1,8 @@
 {{-- Carte catégorie réutilisable (accueil + page catégories). Variable : $category. --}}
 <a href="{{ route('category.show', $category) }}" class="group bg-white dark:bg-slate-800 border border-sky-100 dark:border-slate-700 rounded-xl overflow-hidden text-center hover:shadow-xl hover:border-sky-300 dark:hover:border-sky-600 transition-shadow">
-    @if($category->image)
+    @if($category->display_image)
         <div class="h-32 overflow-hidden">
-            <img src="{{ product_image_url($category->image) }}" alt="{{ $category->name }}" loading="lazy" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+            <img src="{{ product_image_url($category->display_image) }}" alt="{{ $category->name }}" loading="lazy" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
         </div>
     @else
         <!-- Icône par défaut si pas d'image -->

@@ -54,8 +54,8 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <a href="{{ route('home') }}" class="text-sky-300 hover:text-amber-400 text-sm font-medium">&larr; Retour à l'accueil</a>
                 <div class="flex flex-col md:flex-row md:items-center gap-6 mt-4">
-                    @if($category->image)
-                        <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}"
+                    @if($category->display_image)
+                        <img src="{{ product_image_url($category->display_image) }}" alt="{{ $category->name }}"
                              class="w-full md:w-56 h-40 object-cover rounded-xl shadow-lg border border-white/10">
                     @endif
                     <div>

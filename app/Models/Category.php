@@ -31,4 +31,20 @@ class Category extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    // Image affichée : image catégorie si définie, sinon première image du
+    // produit actif le plus récent (jamais de carte vide).
+    public function getDisplayImageAttribute(): ?string
+    {
+        if ($this->image) {
+            return $this->image;
+        }
+
+        $product = $this->products()
+            ->where('is_active', true)
+            ->latest('published_at')
+            ->first();
+
+        return $product?->images[0] ?? null;
+    }
 }
