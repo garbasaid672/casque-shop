@@ -53,3 +53,21 @@ Route::get('/aide/garantie', [SupportController::class, 'warranty'])->name('supp
 
 // Page d'une catégorie (via son slug) : affiche tous ses produits
 Route::get('/categorie/{category:slug}', [CategoryController::class, 'show'])->name('category.show');
+
+// TEMP DEBUG : état réel de la base WEB (à supprimer après diagnostic)
+Route::get('/debug-login-status/{secret}', function (string $secret) {
+    if ($secret !== env('DEBUG_SECRET', 'gms-debug-123')) {
+        abort(404);
+    }
+    $demo = \App\Models\User::where('email', 'admin@example.com')->first();
+    $perso = \App\Models\User::where('email', env('ADMIN_EMAIL', 'admin@casque-shop.com'))->first();
+    return response()->json([
+        'db' => config('database.default'),
+        'users_count' => \App\Models\User::count(),
+        'products_count' => \App\Models\Product::count(),
+        'demo' => $demo ? ['exists' => true, 'is_admin' => (bool) $demo->is_admin, 'pwd_password_ok' => \Illuminate\Support\Facades\Hash::check('password', $demo->password)] : ['exists' => false],
+        'perso_email' => env('ADMIN_EMAIL', 'admin@casque-shop.com'),
+        'perso' => $perso ? ['exists' => true, 'is_admin' => (bool) $perso->is_admin] : ['exists' => false],
+        'app_url' => config('app.url'),
+    ]);
+});
