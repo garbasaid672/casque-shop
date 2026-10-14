@@ -32,6 +32,12 @@ class AppServiceProvider extends ServiceProvider
             fn (): string => Blade::render("@include('filament.auth.login-header')"),
         );
 
+        // Identifiants d'essai sous le formulaire + centrage garanti de la zone
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,
+            fn (): string => Blade::render("@include('filament.auth.login-demo')"),
+        );
+
         // Habillage aux couleurs de la boutique (fond photo + carte du login admin)
         FilamentView::registerRenderHook(
             PanelsRenderHook::STYLES_AFTER,
@@ -41,8 +47,23 @@ class AppServiceProvider extends ServiceProvider
                         background: linear-gradient(rgba(2, 6, 23, 0.84), rgba(2, 6, 23, 0.72)),
                             url('/storage/categories/cat-1.jpg') center / cover no-repeat !important;
                         min-height: 100vh;
+                        display: flex !important;
+                        align-items: center !important;
+                        justify-content: center !important;
+                    }
+                    .fi-simple-main-ctn {
+                        margin: 0 auto !important;
+                        width: 100% !important;
+                        max-width: 28rem !important;
+                        display: flex !important;
+                        flex-direction: column !important;
+                        align-items: center !important;
+                        justify-content: center !important;
                     }
                     .fi-simple-main {
+                        width: 100% !important;
+                        max-width: 28rem !important;
+                        margin: 0 auto !important;
                         background: rgba(255, 255, 255, 0.97) !important;
                         border-radius: 1.25rem !important;
                         box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.55) !important;
