@@ -26,18 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Bannière GMS Audio au-dessus du formulaire de connexion admin
-        FilamentView::registerRenderHook(
-            PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE,
-            fn (): string => Blade::render("@include('filament.auth.login-header')"),
-        );
-
-        // Identifiants d'essai sous le formulaire + centrage garanti de la zone
-        FilamentView::registerRenderHook(
-            PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,
-            fn (): string => Blade::render("@include('filament.auth.login-demo')"),
-        );
-
         // Habillage aux couleurs de la boutique (fond photo + carte du login admin)
         FilamentView::registerRenderHook(
             PanelsRenderHook::STYLES_AFTER,

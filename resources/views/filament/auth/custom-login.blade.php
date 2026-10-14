@@ -8,7 +8,7 @@
         </div>
 
         <div class="px-8 py-8">
-            {{ $this->form }}
+            {{ $this->content }}
 
             <!-- Lien inscription -->
             <p class="text-center text-sm text-slate-500 dark:text-slate-400 mt-6">

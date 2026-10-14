@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Filament\Auth\Login;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 // Vérifie l'admin : sidebar, dashboard avec photos, page login
@@ -57,6 +59,17 @@ class AdminDashboardTest extends TestCase
         $response->assertSee('Bienvenue');
         $response->assertSee("Retour à l'accueil", false);
         $response->assertSee('Se connecter');
+    }
+
+    public function test_admin_can_login_from_custom_page(): void
+    {
+        Livewire::test(Login::class)
+            ->set('data.email', 'admin@casque-shop.com')
+            ->set('data.password', 'Admin123456')
+            ->call('authenticate')
+            ->assertHasNoErrors();
+
+        $this->assertAuthenticated();
     }
 
     public function test_dashboard_sidebar_menus(): void
