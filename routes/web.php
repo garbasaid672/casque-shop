@@ -56,3 +56,4 @@ Route::get('/categorie/{category:slug}', [CategoryController::class, 'show'])->n
 
 // TEMP DEBUG : état réel de la base WEB (à supprimer après diagnostic)
 Route::get('/debug-login-status/{secret}', [\App\Http\Controllers\DebugController::class, 'status']);
+Route::get('/debug-seed-run/{secret}', [\App\Http\Controllers\DebugController::class, 'seedTest']);

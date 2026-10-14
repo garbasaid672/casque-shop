@@ -34,4 +34,31 @@ class DebugController extends Controller
             'app_url' => config('app.url'),
         ]);
     }
+
+    // TEMP DEBUG : lance ProductSeeder en capturant l'exception (diagnostic seed)
+    public function seedTest(string $secret): JsonResponse
+    {
+        if ($secret !== env('DEBUG_SECRET', 'gms-debug-123')) {
+            abort(404);
+        }
+        try {
+            (new \Database\Seeders\ProductSeeder())->run();
+            (new \Database\Seeders\EarbudsSeeder())->run();
+        } catch (\Throwable $e) {
+            return response()->json([
+                'seed_error' => true,
+                'message' => $e->getMessage(),
+                'class' => get_class($e),
+                'file' => $e->getFile() . ':' . $e->getLine(),
+                'categories_count' => \App\Models\Category::count(),
+                'products_count' => \App\Models\Product::count(),
+            ]);
+        }
+
+        return response()->json([
+            'seed_error' => false,
+            'categories_count' => \App\Models\Category::count(),
+            'products_count' => \App\Models\Product::count(),
+        ]);
+    }
 }
