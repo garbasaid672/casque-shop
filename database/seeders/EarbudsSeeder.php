@@ -84,11 +84,22 @@ class EarbudsSeeder extends Seeder
         foreach ($items as $i => $item) {
             [$name, $slug, $brand, $model, $color, $price, $compare, $stock, $featured, $categoryName, $image, $description, $features] = $item;
 
+            // Crée la catégorie si le ProductSeeder aléatoire ne l'a pas créée (évite firstOrFail)
+            $category = Category::firstOrCreate(
+                ['name' => $categoryName],
+                [
+                    'slug' => \Illuminate\Support\Str::slug($categoryName) . '-' . fake()->unique()->numberBetween(1000, 9999),
+                    'description' => 'Catégorie ' . $categoryName,
+                    'is_active' => true,
+                    'sort_order' => 10 + $i,
+                ]
+            );
+
             // firstOrCreate : relancer le seeder ne duplique pas les produits existants
             Product::firstOrCreate(
                 ['slug' => $slug],
                 [
-                'category_id' => Category::where('name', $categoryName)->firstOrFail()->id,
+                'category_id' => $category->id,
                 'name' => $name,
                 'slug' => $slug,
                 'description' => $description,
