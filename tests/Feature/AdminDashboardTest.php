@@ -59,6 +59,9 @@ class AdminDashboardTest extends TestCase
         $response->assertSee('Bienvenue');
         $response->assertSee("Retour à l'accueil", false);
         $response->assertSee('Se connecter');
+        // Fond photo + encadré d'essai
+        $response->assertSee('storage/categories/cat-1.jpg', false);
+        $response->assertSee("Compte d'essai");
     }
 
     public function test_admin_can_login_from_custom_page(): void
