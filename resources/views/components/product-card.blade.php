@@ -4,7 +4,7 @@
     <!-- Image du produit : ratio 4/3 + zoom Tailwind au survol -->
     <div class="relative aspect-[4/3] overflow-hidden bg-slate-200 dark:bg-slate-800">
         @if($product->images && count($product->images) > 0)
-            <img src="{{ asset('storage/' . $product->images[0]) }}"
+            <img src="{{ product_image_url($product->images[0]) }}"
                  alt="{{ $product->name }}"
                  loading="lazy"
                  class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">

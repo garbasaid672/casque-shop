@@ -74,7 +74,7 @@
                 <!-- Photo -->
                 <div class="relative aspect-square overflow-hidden rounded-xl bg-slate-200 dark:bg-slate-800">
                     @if($product->images && count($product->images) > 0)
-                        <img src="{{ asset('storage/' . $product->images[0]) }}" alt="{{ $product->name }}"
+                        <img src="{{ product_image_url($product->images[0]) }}" alt="{{ $product->name }}"
                              class="h-full w-full object-cover">
                     @else
                         <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-sky-100 to-blue-200 dark:from-slate-800 dark:to-blue-950">

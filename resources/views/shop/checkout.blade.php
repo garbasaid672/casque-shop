@@ -140,7 +140,7 @@
                         <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Récapitulatif</h2>
                         <div class="flex gap-4">
                             @if($product->images && count($product->images) > 0)
-                                <img src="{{ asset('storage/' . $product->images[0]) }}" alt="{{ $product->name }}"
+                                <img src="{{ product_image_url($product->images[0]) }}" alt="{{ $product->name }}"
                                      class="w-20 h-20 object-cover rounded-lg">
                             @endif
                             <div>

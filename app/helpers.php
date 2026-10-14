@@ -30,3 +30,17 @@ if (! function_exists('site_name')) {
         return (string) setting('site_name', config('app.name', 'GMS Audio'));
     }
 }
+
+if (! function_exists('product_image_url')) {
+    // Retourne l'URL d'image produit : URL http(s) telle quelle, sinon asset('storage/...').
+    function product_image_url(?string $path): ?string
+    {
+        if (! $path) {
+            return null;
+        }
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+        return asset('storage/' . ltrim($path, '/'));
+    }
+}
