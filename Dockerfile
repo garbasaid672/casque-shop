@@ -39,5 +39,5 @@ RUN composer install --no-dev --optimize-autoloader \
 
 EXPOSE 10000
 
-# Render fournit $PORT. Migration + seed si base vide + cache + serve
-CMD sh -c "touch database/database.sqlite && php artisan migrate --force --seed && php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan serve --host=0.0.0.0 --port=\${PORT:-10000}"
+# Render fournit $PORT. Migration + seed seulement si base vide + cache + serve
+CMD sh -c "touch database/database.sqlite && php artisan migrate --force && COUNT=$(sqlite3 database/database.sqlite 'SELECT COUNT(*) FROM products;' 2>/dev/null || echo 0) && if [ \"$COUNT\" = \"0\" ]; then echo \"Seeding database...\" && php artisan db:seed --force; fi && php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan serve --host=0.0.0.0 --port=\${PORT:-10000}"
