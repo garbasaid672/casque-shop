@@ -11,6 +11,10 @@ class ProductSeeder extends Seeder
 {
     public function run(): void
     {
+        // Idempotent : ne recrée pas 25 produits à chaque redémarrage gratuit
+        if (Product::count() >= 20) {
+            return;
+        }
         // Crée 5 catégories actives
         $categories = Category::factory()->count(5)->create([
             'is_active' => true,
