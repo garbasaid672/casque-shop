@@ -1,14 +1,17 @@
 <div class="w-full max-w-md">
     <!-- Carte -->
     <div class="bg-white dark:bg-slate-900 border border-sky-100 dark:border-slate-800 rounded-2xl shadow-xl overflow-hidden">
-        <!-- Bandeau supérieur -->
+        <!-- Bandeau supérieur avec nom du site en couleur -->
         <div class="bg-gradient-to-r from-slate-950 via-blue-950 to-sky-900 px-8 py-8 text-center">
-            <h1 class="text-2xl font-extrabold text-white">Bienvenue</h1>
-            <p class="text-sky-200 text-sm mt-2">Connectez-vous pour accéder à votre compte</p>
+            <a href="{{ route('home') }}" class="text-2xl font-extrabold bg-gradient-to-r from-sky-600 via-blue-600 to-amber-500 bg-clip-text text-transparent">
+                {{ site_name() }}
+            </a>
         </div>
 
         <div class="px-8 py-8">
             {{ $this->content }}
+
+            <h1 class="text-2xl font-extrabold text-center text-slate-900 dark:text-slate-100 mt-6">Bienvenue</h1>
 
             @include('filament.auth.login-demo')
 

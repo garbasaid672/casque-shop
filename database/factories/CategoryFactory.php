@@ -33,7 +33,7 @@ class CategoryFactory extends Factory
             'name' => $name,
             // Slug unique : nom en kebab-case + nombre aléatoire
             'slug' => Str::slug($name) . '-' . fake()->unique()->numberBetween(1000, 9999),
-            'description' => fake()->paragraph(),  // Description aléatoire
+            'description' => 'Catégorie de produits audio haut de gamme avec descriptions détaillées en français.',
             'image' => null,                       // Pas d'image par défaut
             'sort_order' => fake()->numberBetween(1, 100), // Ordre aléatoire
             'is_active' => true,                   // Catégorie active par défaut

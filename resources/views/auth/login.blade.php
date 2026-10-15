@@ -60,7 +60,7 @@
                             </label>
                             <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus
                                    placeholder="vous@exemple.com"
-                                   class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                                   class="w-full bg-slate-50 dark:bg-slate-800 border border-sky-500 rounded-lg px-4 py-2.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
                         </div>
 
                         <!-- Mot de passe -->
@@ -70,7 +70,7 @@
                             </label>
                             <input type="password" id="password" name="password" required
                                    placeholder="Votre mot de passe"
-                                   class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                                   class="w-full bg-slate-50 dark:bg-slate-800 border border-sky-500 rounded-lg px-4 py-2.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
                         </div>
 
                         <!-- Se souvenir + mot de passe oublié -->
@@ -85,7 +85,7 @@
 
                         <!-- Bouton -->
                         <button type="submit"
-                                class="w-full bg-sky-600 text-white font-bold py-2.5 rounded-lg hover:bg-sky-700 transition-colors">
+                                class="w-full bg-sky-600 text-white font-bold py-3 rounded-lg shadow-lg hover:bg-sky-700 transition-colors">
                             Se connecter
                         </button>
                     </form>

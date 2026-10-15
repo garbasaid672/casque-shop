@@ -13,11 +13,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
-        /* Champs identifiant / mot de passe bien visibles */
+        /* Champs identifiant / mot de passe : pleine largeur, hauteur réduite */
+        .fi-input-wrp,
+        .fi-fo-text-input,
         .fi-input {
-            min-height: 3rem !important;
+            width: 100% !important;
+        }
+        .fi-input {
+            min-height: 2.5rem !important;
             font-size: 1rem !important;
-            padding: 0.75rem 1rem !important;
+            padding: 0.5rem 0.9rem !important;
         }
         .fi-fo-field-label-content {
             font-size: 0.95rem !important;

@@ -93,8 +93,8 @@ class ProductFactory extends Factory
             'name' => $name,
             // Slug : nom en kebab-case + nombre aléatoire
             'slug' => Str::slug($name) . '-' . fake()->numberBetween(1000, 9999),
-            'description' => fake()->paragraphs(3, true),    // 3 paragraphes
-            'short_description' => fake()->sentence(),       // 1 phrase
+            'description' => 'Casque audio haut de gamme avec réduction de bruit active, son haute fidélité et autonomie prolongée. Confortable pour une écoute prolongée dans diverses conditions.',
+            'short_description' => 'Réduction de bruit, son haute fidélité, autonomie prolongée',
             'price' => $price,
             'compare_at_price' => $compareAtPrice,
             // SKU unique : SKU-XXX00000
