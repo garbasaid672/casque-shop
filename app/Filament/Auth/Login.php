@@ -18,12 +18,12 @@ class Login extends BaseLogin
 
     public function getHeading(): string|Htmlable|null
     {
-        return 'Connexion';
+        return 'Identification';
     }
 
     public function getSubheading(): string|Htmlable|null
     {
-        return 'Administration — connectez-vous pour gérer votre boutique.';
+        return 'Connectez-vous pour gérer votre boutique casque-shop';
     }
 
     protected function getEmailFormComponent(): Component

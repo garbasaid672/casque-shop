@@ -90,11 +90,7 @@
                         </button>
                     </form>
 
-                    <!-- Lien inscription -->
-                    <p class="text-center text-sm text-slate-500 dark:text-slate-400 mt-6">
-                        Pas encore de compte ?
-                        <a href="{{ route('register') }}" class="text-sky-600 dark:text-sky-400 hover:underline font-semibold">Créer un compte</a>
-                    </p>
+                    
                 </div>
             </div>
 

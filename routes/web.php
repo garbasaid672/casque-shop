@@ -13,17 +13,12 @@ use Illuminate\Support\Facades\Route;
 // Route principale - page d'accueil de la boutique
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Authentification - page de connexion
-Route::get('/connexion', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/connexion', [AuthController::class, 'login']);
 
-// Authentification - page d'inscription
-Route::get('/inscription', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/inscription', [AuthController::class, 'register']);
 
-Route::post('/deconnexion', [AuthController::class, 'logout'])->name('logout');
 
-// Boutique : catalogue et fiche produit
+
+
+
 Route::get('/boutique', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/produit/{product:slug}', [ShopController::class, 'show'])->name('product.show');
 

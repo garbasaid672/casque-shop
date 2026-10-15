@@ -40,8 +40,8 @@
                             <button type="submit" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 text-sm font-medium">Déconnexion</button>
                         </form>
                     @else
-                        <a href="{{ route('login') }}" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 font-medium">Connexion</a>
-                        <a href="{{ route('register') }}" class="bg-sky-600 text-white px-4 py-2 rounded-lg hover:bg-sky-700 transition-colors font-medium">Inscription</a>
+                        <!-- Pas de lien connexion/inscription pour les clients -->
+                        <span class="text-slate-600 dark:text-slate-300 text-sm">Visiteur</span>
                     @endauth
                 </div>
             </div>
@@ -131,7 +131,12 @@
             <div class="border-t border-slate-800 mt-8 pt-8 text-center text-sm text-slate-500">
                 <p>&copy; {{ date('Y' ) }} {{ site_name() }}. Tous droits réservés.</p>
             </div>
-        </div>
+
+    <!-- Bouton retour en haut -->
+    <div class="mt-8 text-center">
+        <a href="{{ route('home') }}" class="inline-block bg-sky-600 text-white font-medium py-2 px-4 rounded hover:bg-sky-700 transition-colors">&larr; Retour en haut</a>
+    </div>
+
     </footer>
 </body>
 </html>
