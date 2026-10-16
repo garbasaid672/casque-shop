@@ -29,4 +29,10 @@ class PaymentConfirmed extends Mailable
             view: 'emails.payment-confirmed',
         );
     }
+
+    public function date(): string
+    {
+        // Livraison sous 24h maximum
+        return 'Dans les 24 heures';
+    }
 }

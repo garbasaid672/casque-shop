@@ -137,6 +137,17 @@ class KkiaPayService
                 ]);
             }
 
+            // Notifie l'admin (email + SMS + cloche dashboard) pour livrer
+            // vite. Isolée : un échec ne remet jamais en cause le paiement.
+            try {
+                app(AdminNotifier::class)->notifyPaid($order->fresh('items'));
+            } catch (\Throwable $e) {
+                Log::warning('KkiaPay : notification admin non envoyée', [
+                    'order' => $order->order_number,
+                    'error' => $e->getMessage(),
+                ]);
+            }
+
             return 'success';
         }
 

@@ -41,7 +41,6 @@
                         </form>
                     @else
                         <a href="{{ route('filament.admin.auth.login') }}" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 font-medium">Connexion</a>
-                        <a href="{{ route('register') }}" class="bg-sky-600 text-white px-4 py-2 rounded-lg hover:bg-sky-700 transition-colors font-medium">Inscription</a>
                     @endauth
                 </div>
             </div>

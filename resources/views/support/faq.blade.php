@@ -123,11 +123,6 @@
             </div>
         </section>
     </main>
-    
-    <!-- Bouton retour en haut -->
-    <div class="mt-8 text-center">
-        <a href="{{ route('home') }}" class="inline-block bg-sky-600 text-white font-medium py-2 px-4 rounded hover:bg-sky-700 transition-colors">&larr; Retour en haut</a>
-    </div>
 
     <!-- ========== FOOTER ========== -->
     <footer class="bg-slate-950 text-slate-300 py-12">

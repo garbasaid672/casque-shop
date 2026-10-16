@@ -1,109 +1,123 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Connexion - {{ site_name() }}</title>
-    <!-- Tailwind CSS via CDN (remplace Vite en dev) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    @include('components.theme-config')
-    <!-- Police Inter via Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Connexion - {{ site_name() }}</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+    // Thème initial : même clé que le reste du site (localStorage 'theme').
+    (function () {
+        try {
+            var theme = localStorage.getItem('theme');
+            var dark = theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+            document.documentElement.classList.toggle('dark', dark);
+        } catch (e) {}
+    })();
+</script>
+<style>
+:root{--bg:#f1f4f9;--surface:#fff;--text:#0f172a;--muted:#5b6478;--line:#e3e8f0;--nav:rgba(255,255,255,.8);--yellow:#fbbf24;--blue:#0a84c6;--red:#e11d48;--navy:#050b24;--navy2:#0b4a6f;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1020;--surface:#141b30;--text:#f1f5f9;--muted:#9aa5bd;--line:#252e48;--nav:rgba(11,16,32,.8);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b1020;--surface:#141b30;--text:#f1f5f9;--muted:#9aa5bd;--line:#252e48;--nav:rgba(11,16,32,.8);color-scheme:dark}
+*{box-sizing:border-box;margin:0}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;min-height:100vh;display:flex;flex-direction:column}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:1180px;margin:auto;padding:0 24px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--nav);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+.logo{font-weight:800;font-size:24px;background:linear-gradient(90deg,#1d6fd6,#d99a1c);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tools{display:flex;align-items:center;gap:6px}
+.ic{width:40px;height:40px;border-radius:50%;border:0;background:transparent;color:var(--text);display:grid;place-items:center}
+.ic:hover{background:var(--line)}
+.ic svg{width:20px;height:20px}
+.back{font-size:14px;font-weight:500;color:var(--muted)}
+.back:hover{color:var(--text)}
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:48px 18px}
+.card{width:100%;max-width:440px;background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 22px 44px rgba(15,23,42,.16)}
+.banner{background:linear-gradient(150deg,var(--navy),#10204f 55%,var(--navy2));color:#fff;padding:32px;text-align:center}
+.banner h1{font-size:26px;font-weight:800;letter-spacing:-.02em}
+.banner h1 em{font-style:normal;color:var(--yellow)}
+.banner p{margin-top:6px;font-size:14px;color:#c7d6ee}
+.form{padding:28px}
+.alert{background:rgba(225,29,72,.1);border:1px solid rgba(225,29,72,.35);color:var(--red);font-size:14px;border-radius:12px;padding:12px 16px;margin-bottom:20px}
+.alert ul{padding-left:18px}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:14px;font-weight:600;margin-bottom:8px}
+.field input{width:100%;border:1.5px solid var(--line);background:var(--bg);color:var(--text);border-radius:12px;padding:13px 16px;font:inherit;font-size:15px}
+.field input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(10,132,198,.15)}
+.check{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);margin-bottom:20px}
+.check input{width:16px;height:16px;accent-color:var(--yellow)}
+.submit{width:100%;border:0;background:var(--yellow);color:#111;font-weight:700;padding:14px;border-radius:12px;transition:transform .2s,box-shadow .2s}
+.submit:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(251,191,36,.4)}
+footer{background:var(--navy);color:#9fb0cf;padding:24px 0;font-size:14px;text-align:center;margin-top:auto}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
 </head>
-<body class="bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
-    <!-- ========== HEADER ========== -->
-    <header class="sticky top-0 z-50 bg-white dark:bg-slate-900 shadow-md border-b border-sky-100 dark:border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="{{ route('home') }}" class="text-2xl font-extrabold bg-gradient-to-r from-sky-600 via-blue-600 to-amber-500 bg-clip-text text-transparent">
-                    {{ site_name() }}
-                </a>
-                <div class="flex items-center space-x-3">
-                    @include('components.theme-toggle')
-                    <a href="{{ route('home') }}" class="bg-sky-600 text-white px-4 py-2 rounded-lg hover:bg-sky-700 font-semibold text-sm transition-colors">
-                        &larr; Accueil
-                    </a>
-                </div>
-            </div>
-        </div>
-    </header>
+<body>
 
-    <!-- ========== FORMULAIRE DE CONNEXION ========== -->
-    <main class="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
-        <div class="w-full max-w-md">
-            <!-- Carte -->
-            <div class="bg-white dark:bg-slate-900 border border-sky-100 dark:border-slate-800 rounded-2xl shadow-xl overflow-hidden">
-                <!-- Bandeau supérieur -->
-                <div class="bg-gradient-to-r from-slate-950 via-blue-950 to-sky-900 px-8 py-8 text-center">
-                    <h1 class="text-2xl font-extrabold text-white">Bienvenue</h1>
-                    <p class="text-sky-200 text-sm mt-2">Connectez-vous pour accéder à votre compte</p>
-                </div>
+<header>
+<div class="wrap bar">
+<a href="{{ route('home') }}" class="logo">{{ site_name() }}</a>
+<div class="tools">
+<button class="ic" id="theme" aria-label="Changer de thème"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+<a href="{{ route('home') }}" class="back">&larr; Retour à l'accueil</a>
+</div>
+</div>
+</header>
 
-                <div class="px-8 py-8">
-                    <!-- Message d'erreur global -->
-                    @if ($errors->any())
-                        <div class="bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-sm rounded-lg px-4 py-3 mb-6">
-                            {{ $errors->first() }}
-                        </div>
-                    @endif
+<main>
+<div class="card">
+<div class="banner">
+<h1>Bon <em>retour</em> !</h1>
+<p>Connectez-vous à votre compte {{ site_name() }}</p>
+</div>
+<div class="form">
+@if ($errors->any())
+<div class="alert">
+<ul>
+@foreach ($errors->all() as $error)
+<li>{{ $error }}</li>
+@endforeach
+</ul>
+</div>
+@endif
+<form method="POST" action="{{ route('login.post') }}">
+@csrf
+<div class="field">
+<label for="email">Adresse email</label>
+<input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus placeholder="vous@exemple.com">
+</div>
+<div class="field">
+<label for="password">Mot de passe</label>
+<input type="password" id="password" name="password" required placeholder="Votre mot de passe">
+</div>
+<label class="check"><input type="checkbox" name="remember" value="1" {{ old('remember') ? 'checked' : '' }}> Se souvenir de moi</label>
+<button type="submit" class="submit">Se connecter</button>
+</form>
+</div>
+</div>
+</main>
 
-                    <form method="POST" action="{{ route('login') }}" class="space-y-5">
-                        @csrf
+<footer>
+<div class="wrap">&copy; {{ date('Y') }} {{ site_name() }}. Tous droits réservés.</div>
+</footer>
 
-                        <!-- Email -->
-                        <div>
-                            <label for="email" class="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2">
-                                Adresse email
-                            </label>
-                            <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus
-                                   placeholder="vous@exemple.com"
-                                   class="w-full bg-slate-50 dark:bg-slate-800 border border-sky-500 rounded-lg px-4 py-2.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
-                        </div>
-
-                        <!-- Mot de passe -->
-                        <div>
-                            <label for="password" class="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2">
-                                Mot de passe
-                            </label>
-                            <input type="password" id="password" name="password" required
-                                   placeholder="Votre mot de passe"
-                                   class="w-full bg-slate-50 dark:bg-slate-800 border border-sky-500 rounded-lg px-4 py-2.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
-                        </div>
-
-                        <!-- Se souvenir + mot de passe oublié -->
-                        <div class="flex items-center justify-between text-sm">
-                            <label class="flex items-center gap-2 text-slate-600 dark:text-slate-300">
-                                <input type="checkbox" name="remember" value="1" {{ old('remember') ? 'checked' : '' }}
-                                       class="rounded border-slate-300 text-sky-600 focus:ring-sky-500">
-                                Se souvenir de moi
-                            </label>
-                            <a href="#" class="text-sky-600 dark:text-sky-400 hover:underline font-medium">Mot de passe oublié ?</a>
-                        </div>
-
-                        <!-- Bouton -->
-                        <button type="submit"
-                                class="w-full bg-sky-600 text-white font-bold py-3 rounded-lg shadow-lg hover:bg-sky-700 transition-colors">
-                            Se connecter
-                        </button>
-                    </form>
-
-                    
-                </div>
-            </div>
-
-            <!-- Bouton retour à l'accueil -->
-            <a href="{{ route('home') }}" class="mt-6 flex items-center justify-center gap-2 w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-semibold py-2.5 rounded-lg hover:border-sky-500 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
-                &larr; Retour à l'accueil
-            </a>
-        </div>
-    </main>
-
-    <!-- ========== FOOTER SIMPLE ========== -->
-    <footer class="bg-slate-950 text-slate-500 py-6 text-center text-sm">
-        <p>&copy; {{ date('Y') }} Tous droits réservés.</p>
-    </footer>
+<script>
+// Thème : même clé 'theme' que le reste du site (clair/sombre persisté partout).
+(function () {
+    var root = document.documentElement;
+    function apply(dark) {
+        root.dataset.theme = dark ? 'dark' : 'light';
+        root.classList.toggle('dark', dark);
+        try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+    }
+    document.getElementById('theme').onclick = function () {
+        apply(root.dataset.theme !== 'dark');
+    };
+})();
+</script>
 </body>
 </html>

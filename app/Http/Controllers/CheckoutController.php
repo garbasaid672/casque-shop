@@ -129,12 +129,25 @@ class CheckoutController extends Controller
         $product->decrement('stock_quantity', $quantity);
 
         // Paiement en ligne : redirige vers la page de paiement KkiaPay
+        // (l'admin sera notifié à la confirmation du paiement).
         if ($validated['payment_method'] === 'kkiapay') {
             if (! app(KkiaPayService::class)->isConfigured()) {
                 return back()->withErrors(['payment_method' => 'Le paiement en ligne est momentanément indisponible.'])->withInput();
             }
 
             return redirect()->route('payment.show', $order->order_number);
+        }
+
+        // Commande hors ligne (à la livraison / Mobile Money manuel) :
+        // notifie l'admin pour préparer la livraison. Isolée : un échec
+        // ne bloque jamais la commande du client.
+        try {
+            app(\App\Services\AdminNotifier::class)->notifyNewOrder($order->fresh('items'));
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('Commande : notification admin non envoyée', [
+                'order' => $order->order_number,
+                'error' => $e->getMessage(),
+            ]);
         }
 
         return redirect()->route('checkout.success', $order->order_number);

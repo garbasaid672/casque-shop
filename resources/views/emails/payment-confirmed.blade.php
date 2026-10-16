@@ -19,7 +19,7 @@
                 Bonjour {{ $order->billing_first_name }},
             </p>
             <p style="margin:0 0 16px;font-size:15px;font-weight:bold;color:#15803d;">
-                Paiement effectué, vous serez contacté dans 24h au plus pour votre livraison.
+                Paiement effectué, vous serez contacté {{ $message->date }} au plus pour votre livraison.
             </p>
 
             <!-- Récapitulatif commande -->

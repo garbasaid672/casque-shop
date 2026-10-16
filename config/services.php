@@ -28,6 +28,16 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    // SMS admin (pilote "log" par défaut : message écrit dans les logs).
+    // Pour un envoi réel : SMS_DRIVER=twilio + TWILIO_SID / TWILIO_TOKEN /
+    // TWILIO_FROM (numéro expéditeur au format E.164, ex : +2250700000000).
+    'sms' => [
+        'driver' => env('SMS_DRIVER', 'log'),
+        'twilio_sid' => env('TWILIO_SID'),
+        'twilio_token' => env('TWILIO_TOKEN'),
+        'twilio_from' => env('TWILIO_FROM'),
+    ],
+
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),

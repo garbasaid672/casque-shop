@@ -9,21 +9,20 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Component;
 use Illuminate\Contracts\Support\Htmlable;
 
-// Page de connexion admin : même habillage que la page client (/connexion).
+// Page de connexion admin : utilisation de la page par défaut de Filament.
 class Login extends BaseLogin
 {
-    protected string $view = 'filament.auth.custom-login';
 
     protected static string $layout = 'filament.auth.layouts.client';
 
     public function getHeading(): string|Htmlable|null
     {
-        return 'Identification';
+        return 'Connexion';
     }
 
     public function getSubheading(): string|Htmlable|null
     {
-        return 'Connectez-vous pour gérer votre boutique casque-shop';
+        return 'Administration — connectez-vous pour gérer votre boutique.';
     }
 
     protected function getEmailFormComponent(): Component
@@ -33,7 +32,9 @@ class Login extends BaseLogin
             ->email()
             ->required()
             ->autocomplete()
-            ->autofocus();
+            ->autofocus()
+            // Compte d'essai pré-rempli (tests uniquement, à retirer en production)
+            ->default('admin@example.com');
     }
 
     protected function getPasswordFormComponent(): Component
@@ -43,7 +44,9 @@ class Login extends BaseLogin
             ->password()
             ->revealable(filament()->arePasswordsRevealable())
             ->autocomplete('current-password')
-            ->required();
+            ->required()
+            // Compte d'essai pré-rempli (tests uniquement, à retirer en production)
+            ->default('password');
     }
 
     protected function getRememberFormComponent(): Component

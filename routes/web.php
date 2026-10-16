@@ -1,24 +1,19 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SupportController;
 use Illuminate\Support\Facades\Route;
 
 // Route principale - page d'accueil de la boutique
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-
-
-
-
-
-
+// Autres routes...
 Route::get('/boutique', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/produit/{product:slug}', [ShopController::class, 'show'])->name('product.show');
 
@@ -52,3 +47,12 @@ Route::get('/categorie/{category:slug}', [CategoryController::class, 'show'])->n
 // TEMP DEBUG : état réel de la base WEB (à supprimer après diagnostic)
 Route::get('/debug-login-status/{secret}', [\App\Http\Controllers\DebugController::class, 'status']);
 Route::get('/debug-seed-run/{secret}', [\App\Http\Controllers\DebugController::class, 'seedTest']);
+
+// Routes d'authentification personnalisées (déconnexion)
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout.post')->middleware('auth');
+
+// Connexion client : formulaire puis traitement
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+
