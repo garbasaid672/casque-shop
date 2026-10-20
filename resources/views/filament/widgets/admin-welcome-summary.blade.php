@@ -5,7 +5,7 @@
             <div class="pointer-events-none absolute -bottom-20 right-28 size-40 rounded-full bg-white/10 blur-2xl"></div>
             <div class="relative flex flex-wrap items-center justify-between gap-4">
                 <div>
-                    <p style="color: #0000FF;" class="text-7xl font-bold tracking-tight sm:text-8xl">Bienvenue</p>
+                    <p style="color: #0000FF; font-size: 2.25rem; font-family: 'Inter', sans-serif; font-weight: 800;">Bienvenue </p>
                     <strong class="mt-1 block text-4xl font-black tracking-tight text-white sm:text-5xl">Administrateur</strong>
                 </div>
                 <div class="sm:text-right">
