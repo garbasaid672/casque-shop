@@ -14,6 +14,6 @@ class AdminDashboard extends Dashboard
 
     public function getColumns(): int|array
     {
-        return ['default' => 2];
+        return ['default' => 1, 'md' => 2];
     }
 }
