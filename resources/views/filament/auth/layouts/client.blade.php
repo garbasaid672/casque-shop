@@ -36,10 +36,14 @@
         .bar{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
         .logo{font-weight:800;font-size:24px;background:linear-gradient(90deg,#1d6fd6,#d99a1c);-webkit-background-clip:text;background-clip:text;color:transparent}
         nav{display:flex;gap:30px}
+        .main-nav a{position:relative;font-weight:500;color:var(--muted);padding:4px 0}
         nav a{position:relative;font-weight:500;color:var(--muted);padding:4px 0}
         nav a::after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:0;background:var(--yellow);transition:width .25s}
         nav a:hover,nav a.on{color:var(--text)}
         nav a:hover::after,nav a.on::after{width:100%}
+        .nav-theme-toggle,.mobile-menu-toggle{display:none}
+        .mobile-menu-toggle{width:40px;height:40px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);place-items:center}
+        .mobile-menu-toggle svg{width:20px;height:20px}
         .tools{display:flex;align-items:center;gap:6px}
         .ic{width:40px;height:40px;border-radius:50%;border:0;background:transparent;color:var(--text);display:grid;place-items:center;position:relative}
         .ic:hover{background:var(--line)}
@@ -62,8 +66,21 @@
         .news-mini input::placeholder{color:#7d8db1}
         .news-mini button{border:0;background:var(--yellow);color:#111;border-radius:10px;padding:0 16px;font-weight:700;font-size:13px}
         :focus-visible{outline:3px solid var(--blue);outline-offset:2px}
-        @media (max-width:980px){.fg{grid-template-columns:1fr 1fr}nav{display:none}}
-        @media (max-width:560px){.wrap{padding:0 18px}}
+        @media (max-width:980px){
+            .fg{grid-template-columns:1fr 1fr}
+            .bar{position:relative}
+            .main-nav{display:none;position:absolute;top:100%;left:0;right:0;z-index:55;flex-direction:column;gap:0;padding:10px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 36px rgba(15,23,42,.18)}
+            .main-nav.nav-open{display:flex}
+            .main-nav a{padding:12px 14px;border-radius:9px}
+            .main-nav a:hover{background:var(--bg)}
+            .main-nav a::after{display:none}
+            .nav-theme-toggle{display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;border:0;border-radius:9px;background:transparent;color:var(--text);font-weight:600;text-align:left}
+            .nav-theme-toggle:hover{background:var(--bg)}
+            .nav-theme-toggle svg{width:20px;height:20px}
+            .tools .desktop-theme-toggle{display:none}
+            .mobile-menu-toggle{display:grid}
+        }
+        @media (max-width:560px){.wrap{padding:0 18px}.bar{gap:6px}.mobile-menu-toggle{width:36px;height:36px;flex:none}.tools{gap:2px}.tools .ic:first-child{display:none}.tools .ic{width:36px;height:36px}.login{padding:7px 10px;font-size:12px;margin-left:0}.hello{display:none}.logo{font-size:19px}}
         @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
         /* ===== Page de connexion : corps + carte ===== */
         body.auth-body{min-height:100vh;display:flex;flex-direction:column}
@@ -163,10 +180,23 @@
     <header>
         <div class="wrap bar">
             <a href="{{ route('home') }}" class="logo">{{ site_name() }}</a>
-            <nav aria-label="Navigation principale"><a class="on" href="{{ route('home') }}">Accueil</a><a href="{{ route('shop.index') }}">Boutique</a><a href="{{ route('categories.index') }}">Catégories</a></nav>
+            <nav class="main-nav" id="main-nav" aria-label="Navigation principale">
+                <a href="{{ route('home') }}">Accueil</a>
+                <a href="{{ route('shop.index') }}">Boutique</a>
+                <a href="{{ route('categories.index') }}">Catégories</a>
+                <a href="{{ route('support.faq') }}">FAQ</a>
+                <a href="{{ route('contact') }}">Contact</a>
+                <button class="nav-theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                    <span>Changer de thème</span>
+                </button>
+            </nav>
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" type="button" aria-label="Ouvrir le menu" aria-controls="main-nav" aria-expanded="false">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
             <div class="tools">
                 <a class="ic" href="{{ route('shop.index') }}" aria-label="Rechercher"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
-                <button class="ic" id="theme" aria-label="Changer de thème"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+                <button class="ic desktop-theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
                 @auth
                 <span class="hello">Bonjour, {{ Auth::user()->name }}</span>
                 <form method="POST" action="{{ route('logout') }}" style="display:inline">
@@ -218,9 +248,30 @@
                 root.classList.toggle('dark', dark);
                 try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
             }
-            document.getElementById('theme').onclick = function () {
-                apply(root.dataset.theme !== 'dark');
-            };
+            var menu = document.getElementById('main-nav');
+            var menuToggle = document.getElementById('mobile-menu-toggle');
+            function closeMenu() {
+                menu.classList.remove('nav-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                menuToggle.setAttribute('aria-label', 'Ouvrir le menu');
+            }
+            document.querySelectorAll('[data-theme-toggle]').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    apply(root.dataset.theme !== 'dark');
+                    closeMenu();
+                });
+            });
+            menuToggle.addEventListener('click', function () {
+                var isOpen = menu.classList.toggle('nav-open');
+                menuToggle.setAttribute('aria-expanded', String(isOpen));
+                menuToggle.setAttribute('aria-label', isOpen ? 'Fermer le menu' : 'Ouvrir le menu');
+            });
+            menu.addEventListener('click', function (event) {
+                if (event.target.closest('a')) closeMenu();
+            });
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') closeMenu();
+            });
         })();
     </script>
 </body>

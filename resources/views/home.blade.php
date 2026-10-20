@@ -38,6 +38,9 @@ nav a{position:relative;font-weight:500;color:var(--muted);padding:4px 0}
 nav a::after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:0;background:var(--yellow);transition:width .25s}
 nav a:hover,nav a.on{color:var(--text)}
 nav a:hover::after,nav a.on::after{width:100%}
+.nav-theme-toggle{display:none}
+.mobile-menu-toggle{display:none;width:40px;height:40px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);place-items:center}
+.mobile-menu-toggle svg{width:20px;height:20px}
 .tools{display:flex;align-items:center;gap:6px}
 .ic{width:40px;height:40px;border-radius:50%;border:0;background:transparent;color:var(--text);display:grid;place-items:center;position:relative}
 .ic:hover{background:var(--line)}
@@ -63,14 +66,60 @@ nav a:hover::after,nav a.on::after{width:100%}
 .trust{display:flex;gap:22px;margin-top:34px;flex-wrap:wrap;font-size:14px;color:#b8c8e4}
 .trust span{display:flex;align-items:center;gap:8px}
 .trust svg{width:18px;height:18px;color:var(--yellow)}
-.stage{position:relative;display:grid;place-items:center}
-.stage .hp{width:min(100%,430px);color:#e9eef7;filter:drop-shadow(0 30px 40px rgba(0,0,0,.5));animation:float 6s ease-in-out infinite}
-.ring{position:absolute;border:1.5px solid rgba(251,191,36,.35);border-radius:50%;animation:pulse 3.6s ease-out infinite}
-.ring:nth-child(2){animation-delay:1.2s}
-.price-tag{position:absolute;right:2%;bottom:6%;background:#fff;color:#111;padding:10px 16px;border-radius:14px;box-shadow:0 14px 30px rgba(0,0,0,.35);font-size:13px}
-.price-tag b{display:block;font-size:20px}
-@keyframes float{50%{transform:translateY(-14px) rotate(-1.5deg)}}
-@keyframes pulse{from{width:260px;height:260px;opacity:.9}to{width:520px;height:520px;opacity:0}}
+.stage{position:relative;display:grid;place-items:center;width:100%;margin:0}
+.client-dashboard{width:min(100%,600px);padding:14px;border:1px solid rgba(255,255,255,.4);border-radius:24px;background:rgba(255,255,255,.18);box-shadow:0 28px 70px rgba(0,0,0,.3);backdrop-filter:blur(14px);transform:perspective(1200px) rotateY(-5deg) rotateX(2deg)}
+.dashboard-browser{display:flex;align-items:center;gap:8px;margin-bottom:8px;padding:7px 10px;border:1px solid #d1d5db;border-radius:10px;background:#e5e7eb;color:#0284c7;font-size:9px}
+.dashboard-browser-dots{display:flex;gap:3px;flex:none}
+.dashboard-browser-dots i{width:6px;height:6px;border-radius:50%;background:#fb7185}
+.dashboard-browser-dots i:nth-child(2){background:#fbbf24}.dashboard-browser-dots i:nth-child(3){background:#34d399}
+.dashboard-browser-address{display:flex;align-items:center;gap:5px;min-width:0;flex:1;padding:4px 8px;border:1px solid #d1d5db;border-radius:6px;background:#f8fafc}
+.dashboard-browser-address svg{width:10px;height:10px;flex:none;color:#64748b}
+.dashboard-browser-url{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dashboard-window{overflow:hidden;padding:17px;border:1px solid #e4e9f1;border-radius:17px;background:#fff;color:#0f172a;box-shadow:0 12px 36px rgba(2,6,23,.14)}
+.dashboard-layout{display:grid;grid-template-columns:130px minmax(0,1fr);gap:12px}
+.dashboard-sidebar{padding:9px 8px;border:1px solid #e8edf3;border-radius:12px;background:#f8fafc}
+.dashboard-side-brand{display:flex;align-items:center;gap:5px;margin:0 0 12px 2px;font-size:9px;font-weight:800}
+.dashboard-side-brand .dashboard-brand-mark{width:20px;height:20px;flex:none}
+.dashboard-menu-group{margin-top:10px}
+.dashboard-menu-title{margin:0 0 4px 6px;color:#94a3b8;font-size:7px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.dashboard-menu-item{display:flex;align-items:center;gap:6px;margin:2px 0;padding:5px 6px;border-radius:6px;color:#475569;font-size:8px;font-weight:600;white-space:nowrap}
+.dashboard-menu-item svg{width:12px;height:12px;flex:none;color:#64748b}
+.dashboard-menu-item.active{background:#e0f2fe;color:#0369a1}
+.dashboard-menu-item.active svg{color:#0284c7}
+.dashboard-main{min-width:0}
+.dashboard-topbar,.dashboard-greeting,.dashboard-card-heading,.dashboard-order-row,.dashboard-order-item{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.dashboard-brand{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800}
+.dashboard-brand-mark{display:grid;place-items:center;width:25px;height:25px;border-radius:8px;background:#e0f2fe;color:#0284c7}
+.dashboard-brand-mark svg{width:15px;height:15px}
+.dashboard-greeting{align-items:end;margin-top:14px}
+.dashboard-greeting p{color:#64748b;font-size:10px}
+.dashboard-greeting h2{margin-top:2px;font-size:16px;font-weight:800}
+.dashboard-heading{margin-top:9px;font-size:12px;font-weight:800}
+.dashboard-greeting a{padding:7px 10px;border-radius:8px;background:#0284c7;color:#fff;font-size:10px;font-weight:700}
+.dashboard-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:13px}
+.dashboard-kpi{padding:9px;border:1px solid #e8edf3;border-radius:10px;background:#f9fbfd}
+.dashboard-kpi.compact{padding:6px;border-radius:8px}
+.dashboard-kpi span{display:block;color:#64748b;font-size:9px}
+.dashboard-kpi strong{display:block;margin-top:4px;font-size:13px;font-weight:800}
+.dashboard-kpi.compact span{font-size:7px}
+.dashboard-kpi.compact strong{margin-top:2px;font-size:9px}
+.dashboard-content{display:grid;grid-template-columns:1.12fr .88fr;gap:9px;margin-top:9px}
+.dashboard-panel{min-width:0;padding:10px;border:1px solid #e8edf3;border-radius:11px;background:#fff}
+.dashboard-card-heading{font-size:10px;font-weight:800}
+.dashboard-period{color:#64748b;font-size:8px;font-weight:500}
+.dashboard-chart{display:block;width:100%;height:88px;margin-top:7px}
+.dashboard-chart-line{animation:dashboardChartDraw 2.2s ease-out .3s forwards}
+@keyframes dashboardChartDraw{to{stroke-dashoffset:0}}
+.dashboard-chart-labels{display:flex;justify-content:space-between;color:#94a3b8;font-size:8px}
+.dashboard-order-row{margin-top:9px;justify-content:flex-start;align-items:flex-start}
+.dashboard-product-thumb{display:grid;flex:none;place-items:center;width:32px;height:32px;border-radius:9px;background:#eff6ff;color:#0284c7}
+.dashboard-product-thumb svg{width:22px;height:22px}
+.dashboard-order-item{min-width:0;flex:1;align-items:flex-start}
+.dashboard-order-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:9px;font-weight:700}
+.dashboard-order-meta{margin-top:3px;color:#64748b;font-size:8px}
+.dashboard-status{flex:none;padding:4px 6px;border-radius:99px;background:#dcfce7;color:#166534;font-size:8px;font-weight:800}
+.dashboard-footer{display:flex;justify-content:space-between;gap:8px;margin-top:9px;padding-top:8px;border-top:1px solid #eef2f7;color:#64748b;font-size:8px}
+.dashboard-footer strong{color:#0f172a}
 .wave{position:absolute;bottom:-1px;left:0;width:100%;height:80px;display:block}
 .wave path{fill:var(--bg)}
 section{padding:56px 0 8px}
@@ -109,6 +158,88 @@ section{padding:56px 0 8px}
 .perk svg{width:22px;height:22px}
 .perk b{display:block;font-size:15px}
 .perk span{font-size:13px;color:var(--muted)}
+.how-section{margin-top:34px;padding:38px;background:linear-gradient(145deg,rgba(10,132,198,.08),rgba(251,191,36,.12));border:1px solid var(--line);border-radius:26px;overflow:hidden}
+.how-intro{max-width:680px;margin-bottom:30px}
+.how-kicker{display:inline-flex;align-items:center;gap:8px;color:var(--blue);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.how-intro h2,.reviews-intro h2{margin-top:8px;font-size:clamp(26px,4vw,36px);font-weight:800;line-height:1.15;letter-spacing:-.02em}
+.how-intro p,.reviews-intro p{margin-top:10px;color:var(--muted)}
+.how-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.how-step{position:relative;min-height:248px;padding:22px 18px;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 24px rgba(15,23,42,.06);transition:transform .25s,border-color .25s,box-shadow .25s}
+.how-step:hover{transform:translateY(-4px);border-color:var(--blue);box-shadow:0 16px 32px rgba(15,23,42,.12)}
+.how-step-number{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--yellow);color:#111;font-size:17px;font-weight:800}
+.how-step-icon{display:grid;place-items:center;width:54px;height:54px;margin:18px 0 14px;border-radius:16px;background:rgba(10,132,198,.1);color:var(--blue)}
+.how-step-icon svg{width:27px;height:27px}
+.how-step h3{font-size:17px;font-weight:800;line-height:1.3}
+.how-step p{margin-top:8px;color:var(--muted);font-size:14px}
+.delivery-callout{margin-top:10px;padding:9px 10px;border-radius:10px;background:rgba(34,197,94,.1);color:#166534;font-size:12px;font-weight:700}
+:root[data-theme="dark"] .delivery-callout{color:#86efac}
+.how-step a{display:inline-block;margin-top:10px;color:var(--blue);font-size:13px;font-weight:700}
+.how-step a:hover{text-decoration:underline}
+.how-grid.is-playing .how-step{animation:stepGlow 12s ease-in-out infinite;animation-delay:var(--step-delay)}
+.how-step:nth-child(1){--step-delay:0s}.how-step:nth-child(2){--step-delay:3s}.how-step:nth-child(3){--step-delay:6s}.how-step:nth-child(4){--step-delay:9s}
+@keyframes stepGlow{0%,22%,100%{transform:translateY(0);border-color:var(--line);box-shadow:0 8px 24px rgba(15,23,42,.06)}8%,16%{transform:translateY(-4px);border-color:var(--blue);box-shadow:0 16px 32px rgba(10,132,198,.18)}}
+.payment-phone{position:absolute;top:18px;right:18px;width:38px;height:56px;padding:4px;border:2px solid var(--blue);border-radius:9px;color:var(--blue);animation:phoneNudge 3s ease-in-out infinite}
+.payment-phone::before{content:"";display:block;width:10px;height:2px;margin:0 auto 5px;border-radius:9px;background:currentColor}
+.payment-phone::after{content:"";display:block;height:31px;border-radius:3px;background:linear-gradient(180deg,rgba(10,132,198,.12),rgba(251,191,36,.45))}
+.payment-badge{position:absolute;top:27px;right:20px;border-radius:999px;background:#e6f4ff;padding:6px 9px;color:#075985;font-size:11px;font-weight:800}
+@keyframes phoneNudge{50%{transform:translateY(-5px) rotate(3deg)}}
+.reviews-section{padding-top:58px}
+.reviews-intro{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:24px}
+.reviews-average{flex:none;padding:12px 16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);text-align:center}
+.reviews-average strong{display:block;font-size:23px}
+.reviews-average>span{color:var(--muted);font-size:13px}
+.review-stars{color:#d99000;letter-spacing:2px}
+.review-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.review-card{padding:22px;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 24px rgba(15,23,42,.05)}
+.review-card blockquote{margin:12px 0 18px;font-size:15px;line-height:1.65}
+.review-author{display:flex;justify-content:space-between;gap:12px;align-items:center;padding-top:14px;border-top:1px solid var(--line);font-size:13px}
+.review-author strong{display:block}
+.review-author span{color:var(--muted)}
+.reviews-empty{padding:28px;border:1px dashed var(--line);border-radius:16px;color:var(--muted);text-align:center;background:var(--surface)}
+.reviews-invite{margin-top:18px;color:var(--muted);font-size:13px}
+.how-note{display:block;margin-top:5px;font-size:12px}
+.video-section{margin-top:34px;padding:38px;border:1px solid var(--line);border-radius:26px;background:linear-gradient(145deg,rgba(10,132,198,.08),rgba(251,191,36,.12));overflow:hidden}
+.video-intro{max-width:700px;margin-bottom:24px}
+.video-intro h2{margin-top:8px;font-size:clamp(26px,4vw,36px);font-weight:800;line-height:1.15;letter-spacing:-.02em}
+.video-intro p{margin-top:10px;color:var(--muted)}
+.story-player{overflow:hidden;border:1px solid rgba(255,255,255,.6);border-radius:20px;background:#fff;box-shadow:0 20px 54px rgba(15,23,42,.15)}
+.story-stage{position:relative;min-height:330px;aspect-ratio:16/7;overflow:hidden;background:linear-gradient(135deg,#071533,#0b4a6f 65%,#0a84c6)}
+.story-stage::before,.story-stage::after{position:absolute;content:"";pointer-events:none}
+.story-stage::before{inset:0;opacity:.12;background-image:linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);background-size:34px 34px}
+.story-stage::after{width:310px;height:310px;right:8%;top:-170px;border-radius:50%;background:rgba(251,191,36,.28);filter:blur(22px)}
+.flow-scene{position:absolute;inset:0;z-index:1;display:grid;grid-template-columns:.9fr 1.1fr;align-items:center;gap:15px;padding:24px 5%;opacity:0;animation:flowScene 24s linear infinite}
+.flow-scene:nth-child(2){animation-delay:-18s}
+.flow-scene:nth-child(3){animation-delay:-12s}
+.flow-scene:nth-child(4){animation-delay:-6s}
+@keyframes flowScene{0%,23%{opacity:1}25%,98%{opacity:0}100%{opacity:1}}
+.scene-copy{position:relative;z-index:1;color:#fff}
+.scene-index{display:inline-flex;padding:5px 9px;border:1px solid rgba(255,255,255,.3);border-radius:99px;background:rgba(255,255,255,.09);color:#fde68a;font-size:10px;font-weight:800;letter-spacing:.1em}
+.scene-copy h3{margin-top:12px;font-size:clamp(20px,3vw,30px);font-weight:800;line-height:1.12}
+.scene-copy p{max-width:330px;margin-top:9px;color:#d8e5f7;font-size:13px;line-height:1.55}
+.scene-visual{position:relative;z-index:1;display:grid;place-items:center;width:100%;height:100%;min-height:240px;overflow:hidden;border:1px solid rgba(255,255,255,.24);border-radius:16px;background:#0b2748;box-shadow:0 14px 35px rgba(0,0,0,.22)}
+.scene-visual::after{position:absolute;inset:0;content:"";pointer-events:none;background:linear-gradient(180deg,rgba(4,17,38,.03) 35%,rgba(4,17,38,.56))}
+.scene-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:photoPush 6s ease-in-out infinite alternate}
+.flow-scene:nth-child(1) .scene-visual img{object-position:center 48%}
+.flow-scene:nth-child(2) .scene-visual img{object-position:center 44%}
+.flow-scene:nth-child(3) .scene-visual img{object-position:center 45%}
+.flow-scene:nth-child(4) .scene-visual img{object-position:center}
+@keyframes photoPush{from{transform:scale(1)}to{transform:scale(1.08)}}
+.scene-visual.photo-pair{grid-template-columns:1fr 1fr;gap:4px}
+.scene-visual.photo-pair img{position:relative;inset:auto;width:100%;height:100%;min-height:240px}
+.scene-callout{position:absolute;z-index:2;right:12px;bottom:12px;left:12px;display:flex;align-items:center;gap:8px;padding:9px 11px;border:1px solid rgba(255,255,255,.45);border-radius:12px;background:rgba(255,255,255,.94);color:#0f172a;font-size:10px;font-weight:700;box-shadow:0 8px 20px rgba(0,0,0,.2)}
+.scene-callout-mark{display:grid;flex:none;place-items:center;width:24px;height:24px;border-radius:50%;background:#dcfce7;color:#15803d}
+.scene-callout-mark svg{width:14px;height:14px}
+.story-controls{display:flex;align-items:center;gap:14px;padding:12px 16px;background:#fff}
+.story-play{display:grid;flex:none;place-items:center;width:36px;height:36px;border:0;border-radius:50%;background:#e0f2fe;color:#0369a1;font-size:15px}
+.story-play:hover{background:#bae6fd}
+.story-player.is-paused .story-pause-icon,.story-player:not(.is-paused) .story-resume-icon{display:none}
+.story-play-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.story-progress{position:relative;flex:1;height:5px;overflow:hidden;border-radius:99px;background:#e2e8f0}
+.story-progress::after{position:absolute;inset:0 auto 0 0;width:0;border-radius:inherit;background:linear-gradient(90deg,#0284c7,#fbbf24);content:"";animation:storyProgress 24s linear infinite}
+@keyframes storyProgress{to{width:100%}}
+.story-caption{color:#64748b;font-size:11px;font-weight:700;white-space:nowrap}
+.story-player.is-paused .flow-scene,.story-player.is-paused .story-progress::after,.story-player.is-paused .scene-visual img{animation-play-state:paused}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .empty{text-align:center;padding:48px 0;color:var(--muted)}
 footer{margin-top:64px;background:var(--navy);color:#9fb0cf;padding:56px 0 28px;font-size:14px}
 .fg{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:32px}
@@ -125,9 +256,18 @@ footer a:hover{color:var(--yellow)}
 .news-mini input::placeholder{color:#7d8db1}
 .news-mini button{border:0;background:var(--yellow);color:#111;border-radius:10px;padding:0 16px;font-weight:700;font-size:13px}
 :focus-visible{outline:3px solid var(--blue);outline-offset:2px}
-@media (max-width:980px){.products,.perks{grid-template-columns:repeat(2,1fr)}.hero .wrap{grid-template-columns:1fr}.stage{order:-1;max-width:320px;margin:auto}.fg{grid-template-columns:1fr 1fr}nav{display:none}.cats{grid-template-columns:1fr}}
-@media (max-width:560px){.products,.perks{grid-template-columns:1fr}.hero{padding:50px 0 120px}.wrap{padding:0 18px}.fg{grid-template-columns:1fr}.logo{font-size:19px}.login{padding:7px 12px;font-size:13px;margin-left:0}.bar{gap:8px}.head h2{font-size:24px}.price-tag{right:0}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:980px){.products,.perks{grid-template-columns:repeat(2,1fr)}.hero .wrap{grid-template-columns:1fr}.stage{max-width:640px;margin:auto}.fg{grid-template-columns:1fr 1fr}.bar{position:relative}.main-nav{display:none;position:absolute;top:100%;left:0;right:0;z-index:55;flex-direction:column;gap:0;padding:10px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 36px rgba(15,23,42,.18)}.main-nav.nav-open{display:flex}.main-nav a{padding:12px 14px;border-radius:9px}.main-nav a:hover{background:var(--bg)}.main-nav a::after{display:none}.nav-theme-toggle{display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;border:0;border-radius:9px;background:transparent;color:var(--text);font-weight:600;text-align:left}.nav-theme-toggle:hover{background:var(--bg)}.nav-theme-toggle svg{width:20px;height:20px}.tools .desktop-theme-toggle{display:none}.mobile-menu-toggle{display:grid}.cats{grid-template-columns:repeat(2,minmax(0,1fr))}.how-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.review-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.products,.perks,.cats,.how-grid,.review-grid{grid-template-columns:1fr}.hero{padding:50px 0 120px}.wrap{padding:0 18px}.fg{grid-template-columns:1fr}.logo{font-size:19px}.hello{display:none}.login{padding:7px 10px;font-size:12px;margin-left:0}.bar{gap:6px}.mobile-menu-toggle{width:36px;height:36px;flex:none}.tools{gap:2px}.tools .ic:first-child{display:none}.tools .ic{width:36px;height:36px}.head h2{font-size:24px}.how-section{padding:24px 18px;border-radius:20px}.how-step{min-height:0;padding:18px}.how-step-icon{margin:14px 0 10px}.reviews-intro{align-items:start;flex-direction:column}.reviews-average{display:flex;align-items:center;gap:10px;text-align:left;padding:8px 12px}.reviews-average strong{font-size:18px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media (max-width:980px){.stage{width:100%;max-width:640px;margin:12px auto 0}.client-dashboard{transform:none}}
+@media (max-width:700px){.dashboard-content{grid-template-columns:1fr}.dashboard-chart{height:75px}}
+@media (max-width:560px){.client-dashboard{padding:7px;border-radius:18px}.dashboard-window{padding:12px}.dashboard-kpis{gap:5px}.dashboard-kpi{padding:7px}.dashboard-kpi strong{font-size:11px}.dashboard-greeting h2{font-size:14px}.video-section{padding:22px 14px;border-radius:20px}.video-intro{margin-bottom:17px}.story-stage{min-height:455px;aspect-ratio:auto}.flow-scene{grid-template-columns:1fr;grid-template-rows:auto 1fr;align-items:start;gap:0;padding:18px 20px}.scene-copy h3{margin-top:8px;font-size:22px}.scene-copy p{margin-top:6px;font-size:12px}.scene-visual{min-height:210px;align-self:end}.scene-visual.photo-pair img{min-height:210px}.story-controls{gap:9px;padding:10px 12px}.story-caption{font-size:9px}}
+@media (prefers-reduced-motion:reduce){.flow-scene{opacity:0;animation:none!important}.flow-scene:first-child{opacity:1}.dashboard-chart-line{stroke-dashoffset:0}.story-play,.story-progress{display:none}}
+@media (max-width:560px){.dashboard-layout{grid-template-columns:minmax(0,1fr);gap:8px}.dashboard-sidebar{display:flex;gap:8px;overflow-x:auto;padding:6px}.dashboard-side-brand{display:none}.dashboard-menu-group{display:flex;flex:none;align-items:center;gap:3px;margin:0}.dashboard-menu-title{display:none}.dashboard-menu-item{flex:none;margin:0;padding:5px 6px;font-size:7px}.dashboard-menu-item svg{width:10px;height:10px}.dashboard-main{min-width:0}.dashboard-window{padding:9px}.scene-visual{min-height:210px}.scene-visual.photo-pair img{min-height:210px}.scene-callout{right:7px;bottom:7px;left:7px;padding:7px;font-size:9px}}
+@media (max-width:980px){.dashboard-welcome-kpis{grid-template-columns:1fr 1fr 1fr}.dashboard-welcome{grid-column:1/-1}}
+@media (max-width:560px){.dashboard-browser{margin-bottom:6px;font-size:8px}.dashboard-welcome-kpis{gap:4px}.dashboard-kpi.compact{padding:5px}.dashboard-kpi.compact span{font-size:6px}.dashboard-kpi.compact strong{font-size:8px}}
+@media (min-width:561px) and (max-width:980px){.dashboard-layout{grid-template-columns:120px minmax(0,1fr)}.dashboard-content{grid-template-columns:1fr}}
+.story-player:not(.is-in-view) .flow-scene,.story-player:not(.is-in-view) .story-progress::after,.story-player:not(.is-in-view) .scene-visual img{animation-play-state:paused}
 </style>
 @php
 // Réglages admin (Admin > Gestion > Accueil du site), valeurs sûres uniquement.
@@ -161,10 +301,13 @@ $heroH1 = ($escHl !== '') ? str_replace($escHl, '<em>'.$escHl.'</em>', e($heroTi
 <header>
 <div class="wrap bar">
 <a href="{{ route('home') }}" class="logo">{{ site_name() }}</a>
-<nav aria-label="Navigation principale"><a class="on" href="{{ route('home') }}">Accueil</a><a href="{{ route('shop.index') }}">Boutique</a><a href="{{ route('categories.index') }}">Catégories</a></nav>
+<nav class="main-nav" id="main-nav" aria-label="Navigation principale"><a class="on" href="{{ route('home') }}">Accueil</a><a href="{{ route('shop.index') }}">Boutique</a><a href="{{ route('categories.index') }}">Catégories</a><a href="{{ route('support.faq') }}">FAQ</a><a href="{{ route('contact') }}">Contact</a><button class="nav-theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><span>Changer de thème</span></button></nav>
+<button class="mobile-menu-toggle" id="mobile-menu-toggle" type="button" aria-label="Ouvrir le menu" aria-controls="main-nav" aria-expanded="false">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+</button>
 <div class="tools">
 <a class="ic" href="{{ route('shop.index') }}" aria-label="Rechercher"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
-<button class="ic" id="theme" aria-label="Changer de thème"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+<button class="ic desktop-theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
 @auth
 <span class="hello">Bonjour, {{ Auth::user()->name }}</span>
 <form method="POST" action="{{ route('logout') }}" style="display:inline">
@@ -191,13 +334,61 @@ $heroH1 = ($escHl !== '') ? str_replace($escHl, '<em>'.$escHl.'</em>', e($heroTi
 <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Paiement sécurisé</span>
 </div>
 </div>
-<div class="stage" aria-hidden="true">
-<div class="ring"></div><div class="ring"></div>
-<svg class="hp"><use href="#hp"/></svg>
-@if($featuredProducts->isNotEmpty())
-<div class="price-tag">Nouveau<b>{{ $featuredProducts->first()->name }}</b></div>
-@endif
+<figure class="stage">
+<div class="client-dashboard">
+<div class="dashboard-browser" aria-label="Adresse du tableau de bord"><span class="dashboard-browser-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="dashboard-browser-address"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/></svg><span class="dashboard-browser-url">https://casque-shop-1.onrender.com/dashbord</span></span></div>
+<div class="dashboard-window">
+<div class="dashboard-layout">
+<aside class="dashboard-sidebar" aria-label="Menus du tableau de bord">
+<div class="dashboard-side-brand"><span class="dashboard-brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0 1 16 0"/><rect x="3" y="11" width="5" height="8" rx="2"/><rect x="16" y="11" width="5" height="8" rx="2"/></svg></span>{{ site_name() }}</div>
+<div class="dashboard-menu-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="5" rx="1"/><rect x="13" y="10" width="8" height="11" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/></svg>Tableau de bord</div>
+<div class="dashboard-menu-group"><p class="dashboard-menu-title">Boutique</p>
+<div class="dashboard-menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9h18l-2 12H5L3 9Z"/><path d="M8 9a4 4 0 0 1 8 0"/></svg>Produits</div>
+<div class="dashboard-menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2 3h2l3 13h12l3-9H6"/></svg>Commandes</div>
+<div class="dashboard-menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16M4 12h16M4 19h16"/></svg>Catégories</div>
 </div>
+<div class="dashboard-menu-group"><p class="dashboard-menu-title">Clients</p>
+<div class="dashboard-menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM20 8v6m3-3h-6"/></svg>Clients</div>
+<div class="dashboard-menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Messages</div>
+<div class="dashboard-menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3Z"/></svg>Avis clients</div>
+</div>
+<div class="dashboard-menu-group"><p class="dashboard-menu-title">Gestion</p>
+<div class="dashboard-menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg>Wallet</div>
+<div class="dashboard-menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 12h18"/></svg>Accueil du site</div>
+<div class="dashboard-menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Compte</div>
+</div>
+</aside>
+<div class="dashboard-main">
+<div class="dashboard-greeting">
+<div><p>Bienvenue</p><h2>Administrateur</h2></div>
+<a href="{{ route('shop.index') }}">Boutique</a>
+</div>
+<h2 class="dashboard-heading">Tableau de bord</h2>
+<div class="dashboard-kpis dashboard-welcome-kpis">
+<div class="dashboard-kpi compact"><span>Chiffre d’affaires</span><strong>— FCFA</strong></div>
+<div class="dashboard-kpi compact"><span>Paiements reçus</span><strong>—</strong></div>
+<div class="dashboard-kpi compact"><span>Commandes</span><strong>—</strong></div>
+</div>
+<div class="dashboard-content">
+<div class="dashboard-panel">
+<div class="dashboard-card-heading">Activité des commandes</div>
+<svg class="dashboard-chart" viewBox="0 0 300 100" role="img" aria-label="Graphique d’activité du tableau de bord">
+<path d="M16 18H290M16 48H290M16 78H290" fill="none" stroke="#e8edf3" stroke-width="1"/>
+<path d="M18 75C48 70 55 53 82 58S124 74 151 46 191 60 218 33 261 42 286 18V88H18Z" fill="rgba(2,132,199,.12)"/>
+<path class="dashboard-chart-line" d="M18 75C48 70 55 53 82 58S124 74 151 46 191 60 218 33 261 42 286 18" fill="none" stroke="#0284c7" stroke-width="3" stroke-linecap="round" stroke-dasharray="380" stroke-dashoffset="380"/>
+<circle cx="286" cy="18" r="4" fill="#f59e0b"/>
+</svg>
+<div class="dashboard-chart-labels"><span>Sem. 1</span><span>Sem. 2</span><span>Sem. 3</span><span>Sem. 4</span></div>
+</div>
+<div class="dashboard-panel">
+<div class="dashboard-card-heading">Dernières commandes</div>
+<div class="dashboard-order-row"><span class="dashboard-product-thumb" aria-hidden="true"><svg viewBox="0 0 200 200"><use href="#hp"/></svg></span><div class="dashboard-order-item"><div class="dashboard-order-name">Suivi des commandes</div><div class="dashboard-order-meta">Statuts et paiements</div></div></div>
+<div class="dashboard-footer"><span>Gestion</span><span class="dashboard-status">En temps réel</span></div>
+</div>
+</div>
+</div>
+</div>
+</figure>
 </div>
 <svg class="wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 80V40C240 0 480 0 720 30s480 40 720 0v50z"/></svg>
 </div>
@@ -297,6 +488,90 @@ $icons = ['#hp', '#bud', '#spk'];
 </section>
 @endif
 
+<section id="comment-commander" class="video-section" aria-labelledby="how-heading">
+<div class="video-intro">
+<span class="how-kicker"><span aria-hidden="true">✦</span> Simple et sécurisé</span>
+<h2 id="how-heading">Du téléphone à la livraison</h2>
+<p>Découvrez le parcours d’une commande : le client choisit son produit, règle sa commande et reçoit son casque.</p>
+@unless($kkiapayConfigured)
+<p class="how-note">KkiaPay n’est pas activé actuellement. Le moyen de paiement en ligne ne sera proposé que lorsqu’il sera configuré.</p>
+@endunless
+</div>
+<div class="story-player" id="order-story">
+<div class="story-stage" aria-hidden="true">
+<article class="flow-scene">
+<div class="scene-copy"><span class="scene-index">ÉTAPE 01 · DÉCOUVERTE</span><h3>Elle prend son téléphone</h3><p>Elle ouvre la boutique en ligne et découvre les casques depuis chez elle.</p></div>
+<div class="scene-visual"><img src="{{ asset('images/purchase-story/shopping-phone.jpg') }}" alt="" loading="eager" decoding="async"></div>
+</article>
+<article class="flow-scene">
+<div class="scene-copy"><span class="scene-index">ÉTAPE 02 · CHOIX</span><h3>Elle choisit son casque</h3><p>Elle compare les modèles disponibles puis ouvre la fiche du produit qui la plaît.</p></div>
+<div class="scene-visual"><img src="{{ asset('images/purchase-story/headphones-customer.jpg') }}" alt="" loading="eager" decoding="async"></div>
+</article>
+<article class="flow-scene">
+<div class="scene-copy"><span class="scene-index">ÉTAPE 03 · PAIEMENT</span><h3>@if($kkiapayConfigured) Elle paie avec KkiaPay @else Elle confirme sa commande @endif</h3><p>@if($kkiapayConfigured) Elle confirme le paiement sur son téléphone et reçoit un message de confirmation. @else La scène illustre le paiement et le message de confirmation. KkiaPay sera proposé une fois activé. @endif</p></div>
+<div class="scene-visual">
+<img src="{{ asset('images/purchase-story/payment-at-counter.jpg') }}" alt="" loading="eager" decoding="async">
+<div class="scene-callout"><span class="scene-callout-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6"/></svg></span>@if($kkiapayConfigured) Paiement confirmé avec KkiaPay @else Commande confirmée @endif</div>
+</div>
+</article>
+<article class="flow-scene">
+<div class="scene-copy"><span class="scene-index">ÉTAPE 04 · LIVRAISON</span><h3>Le livreur prend la route</h3><p>Après confirmation et préparation, le livreur rejoint le client à moto et lui remet son colis.</p></div>
+<div class="scene-visual photo-pair">
+<img src="{{ asset('images/purchase-story/courier-motorcycle.jpg') }}" alt="" loading="eager" decoding="async">
+<img src="{{ asset('images/purchase-story/package-handover.jpg') }}" alt="" loading="eager" decoding="async">
+</div>
+</article>
+</div>
+<div class="story-controls">
+<button class="story-play" id="story-play" type="button" aria-label="Mettre l’animation en pause">
+<svg class="story-pause-icon" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M8 5v14M16 5v14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+<svg class="story-resume-icon" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="m8 5 12 7-12 7z" fill="currentColor"/></svg>
+<span class="sr-only">Mettre l’animation en pause</span>
+</button>
+<div class="story-progress" aria-hidden="true"></div>
+<span class="story-caption" aria-hidden="true">PHOTOS STOCK · UNSPLASH</span>
+</div>
+<p class="sr-only">Animation illustrative en quatre étapes : le client ouvre la boutique sur son téléphone, choisit un casque, règle sa commande, puis reçoit son colis des mains du livreur à moto. Les scènes et les données du tableau de bord sont des exemples.</p>
+</div>
+</section>
+
+<section class="reviews-section" id="avis-clients" aria-labelledby="reviews-heading">
+<div class="reviews-intro">
+<div>
+<span class="how-kicker"><span aria-hidden="true">✦</span> Avis vérifiés</span>
+<h2 id="reviews-heading">Leur expérience après commande</h2>
+<p>Chaque avis provient d’une commande livrée et est vérifié par notre équipe avant publication.</p>
+</div>
+@if($reviews->isNotEmpty())
+<div class="reviews-average" aria-label="Note moyenne des clients">
+<strong>{{ number_format($reviewAverage, 1, ',', ' ') }} <span class="review-stars" aria-hidden="true">★</span></strong>
+<span>{{ $reviewCount }} avis publié(s)</span>
+</div>
+@endif
+</div>
+@if($reviews->isNotEmpty())
+<div class="review-grid">
+@foreach($reviews as $review)
+<article class="review-card">
+<div class="review-stars" aria-label="Note : {{ $review->rating }} sur 5">
+    @for($star = 1; $star <= 5; $star++)
+        <span aria-hidden="true">{{ $star <= $review->rating ? '★' : '☆' }}</span>
+    @endfor
+</div>
+<blockquote>{{ $review->comment }}</blockquote>
+<div class="review-author">
+<div><strong>{{ $review->author_name }}</strong><span>{{ $review->city }}</span></div>
+<span>Commande livrée</span>
+</div>
+</article>
+@endforeach
+</div>
+@else
+<p class="reviews-empty">Les premiers avis vérifiés apparaîtront ici après livraison et validation par notre équipe.</p>
+@endif
+<p class="reviews-invite">Vous avez déjà payé ou reçu une commande ? Le lien pour partager votre expérience se trouve sur votre page de confirmation.</p>
+</section>
+
 <section>
 <div class="perks">
 <a class="perk" href="{{ route('support.shipping') }}"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6h13v11H1zM14 10h5l3 3v4h-8z"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></i><div><b>Livraison rapide</b><span>En savoir plus</span></div></a>
@@ -334,9 +609,68 @@ $icons = ['#hp', '#bud', '#spk'];
         root.classList.toggle('dark', dark);
         try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
     }
-    document.getElementById('theme').onclick = function () {
-        apply(root.dataset.theme !== 'dark');
-    };
+    document.querySelectorAll('[data-theme-toggle]').forEach(function (button) {
+        button.addEventListener('click', function () {
+            apply(root.dataset.theme !== 'dark');
+            closeMenu();
+        });
+    });
+
+    var menu = document.getElementById('main-nav');
+    var menuToggle = document.getElementById('mobile-menu-toggle');
+    //Fonction pour fermer le menu et mettre à jour les attributs ARIA
+    function closeMenu() {
+        menu.classList.remove('nav-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Ouvrir le menu');
+    }
+    menuToggle.addEventListener('click', function () {
+        var isOpen = menu.classList.toggle('nav-open');
+        menuToggle.setAttribute('aria-expanded', String(isOpen));
+        menuToggle.setAttribute('aria-label', isOpen ? 'Fermer le menu' : 'Ouvrir le menu');
+    });
+    menu.addEventListener('click', function (event) {
+        if (event.target.closest('a')) closeMenu();
+    });
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') closeMenu();
+    });
+
+    var storyPlayer = document.getElementById('order-story');
+    var storyPlay = document.getElementById('story-play');
+    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (storyPlayer && storyPlay) {
+        // Gestion de l'état de pause de l'animation
+        function setStoryPaused(paused) {
+            storyPlayer.classList.toggle('is-paused', paused);
+            var label = paused ? 'Reprendre l’animation' : 'Mettre l’animation en pause';
+            storyPlay.setAttribute('aria-label', label);
+            storyPlay.querySelector('.sr-only').textContent = label;
+        }
+
+        storyPlay.addEventListener('click', function () {
+            setStoryPaused(!storyPlayer.classList.contains('is-paused'));
+        });
+       // Fonction pour appliquer la préférence de mouvement réduit
+        function applyMotionPreference() {
+            storyPlay.hidden = reducedMotion.matches;
+            setStoryPaused(reducedMotion.matches);
+        }
+
+        if ('IntersectionObserver' in window) {
+            var storyObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    storyPlayer.classList.toggle('is-in-view', entry.isIntersecting);
+                });
+            }, { threshold: 0.2 });
+            storyObserver.observe(storyPlayer);
+        } else {
+            storyPlayer.classList.add('is-in-view');
+        }
+
+        applyMotionPreference();
+        reducedMotion.addEventListener('change', applyMotionPreference);
+    }
 })();
 </script>
 </body>

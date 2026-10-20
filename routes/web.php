@@ -6,6 +6,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\OrderReviewController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SupportController;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,10 @@ Route::post('/commander/{product:slug}', [CheckoutController::class, 'store'])->
 Route::get('/commande/{orderNumber}/payer', [PaymentController::class, 'show'])->name('payment.show');
 Route::post('/commande/{orderNumber}/verifier', [PaymentController::class, 'verify'])->name('payment.verify');
 Route::get('/commande/{orderNumber}/merci', [CheckoutController::class, 'success'])->name('checkout.success');
+Route::get('/commande/{orderNumber}/avis', [OrderReviewController::class, 'create'])->name('reviews.create');
+Route::post('/commande/{orderNumber}/avis', [OrderReviewController::class, 'store'])
+    ->middleware('throttle:5,10')
+    ->name('reviews.store');
 
 // Webhook KkiaPay (notifications asynchrones de paiement)
 Route::post('/kkiapay/webhook', [PaymentController::class, 'webhook'])->name('kkiapay.webhook');
@@ -55,4 +60,3 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout.post')->
 // Connexion client : formulaire puis traitement
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-

@@ -13,10 +13,8 @@ class ShopStats extends StatsOverviewWidget
 {
     // Chargé directement avec la page (pas d'attente Livewire)
     protected static bool $isLazy = false;
-    protected function fcfa(int|float $amount): string
-    {
-        return number_format((int) round($amount), 0, ',', ' ') . ' FCFA';
-    }
+
+    protected int|array|null $columns = ['@xl' => 3, '!@xl' => 2];
 
     protected function getStats(): array
     {
@@ -28,10 +26,6 @@ class ShopStats extends StatsOverviewWidget
             Stat::make('En attente', (string) Order::where('status', 'pending')->count())
                 ->description('Commandes à traiter')
                 ->color('warning'),
-
-            Stat::make('Encaissé', $this->fcfa((float) Order::where('payment_status', 'paid')->sum('total')))
-                ->description('Paiements reçus')
-                ->color('success'),
 
             Stat::make('Clients', (string) User::where('is_admin', false)->count())
                 ->description('Comptes inscrits'),

@@ -29,6 +29,8 @@
                     <a href="{{ route('home') }}" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 font-medium">Accueil</a>
                     <a href="{{ route('shop.index') }}" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 font-medium">Boutique</a>
                     <a href="{{ route('categories.index') }}" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 font-medium">Catégories</a>
+                    <a href="{{ route('support.faq') }}" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 font-medium">FAQ</a>
+                    <a href="{{ route('contact') }}" class="text-sky-600 dark:text-sky-400 font-semibold">Contact</a>
                 </nav>
                 <!-- Actions utilisateur -->
                 <div class="flex items-center space-x-4">

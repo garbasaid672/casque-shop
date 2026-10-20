@@ -96,7 +96,7 @@ class CheckoutController extends Controller
         $order = Order::create([
             'order_number' => 'CMD-' . now()->format('Ymd') . '-' . strtoupper(Str::random(6)),
             'user_id' => Auth::id(),
-            'email' => $validated['email'],
+            'email' => trim($validated['email']),
             'phone' => $validated['phone'],
             'status' => 'pending',
             'payment_status' => 'pending',

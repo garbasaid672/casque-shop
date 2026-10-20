@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Responses\LogoutResponse;
 use Filament\Support\Facades\FilamentView;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Support\Facades\Blade;
@@ -17,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
         // Déconnexion admin -> page d'accueil de la boutique (au lieu du login admin)
         $this->app->bind(
             \Filament\Auth\Http\Responses\Contracts\LogoutResponse::class,
-            \App\Http\Responses\LogoutResponse::class,
+            LogoutResponse::class,
         );
     }
 
@@ -114,6 +115,18 @@ class AppServiceProvider extends ServiceProvider
                     @media (min-width: 768px) {
                         .fi-simple-main-ctn {
                             padding: 2.5rem 2rem !important;
+                        }
+                    }
+
+                    @media (max-width: 640px) {
+                        .fi-wi-chart .fi-section-header-heading,
+                        .fi-wi-chart .fi-section-header-description,
+                        .fi-wi-table .fi-ta-header-heading {
+                            white-space: nowrap;
+                        }
+
+                        .fi-wi-chart .fi-section-header-description {
+                            font-size: 0.7rem;
                         }
                     }
                 </style>

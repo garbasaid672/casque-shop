@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\OrderReview;
 use App\Models\Product;
+use App\Services\KkiaPayService;
+use Illuminate\Support\Collection;
 
 // Contrôleur pour la page d'accueil de la boutique
 class HomeController extends Controller
 {
     // Affiche la page d'accueil avec produits vedettes, catégories et nouveautés
-    public function index()
+    public function index(KkiaPayService $kkiapay)
     {
         // Vedettes : choix de l'admin (Admin > Gestion > Accueil du site),
         // sinon 8 produits marqués is_featured
@@ -35,13 +38,29 @@ class HomeController extends Controller
                 ->take(4)
                 ->get();
 
-        // Retourne la vue home avec les données
-        return view('home', compact('featuredProducts', 'categories', 'newProducts'));
+        $reviews = OrderReview::query()
+            ->where('is_approved', true)
+            ->latest()
+            ->take(6)
+            ->get();
+        $reviewCount = OrderReview::where('is_approved', true)->count();
+        $reviewAverage = OrderReview::where('is_approved', true)->avg('rating');
+        $kkiapayConfigured = $kkiapay->isConfigured();
+
+        return view('home', compact(
+            'featuredProducts',
+            'categories',
+            'newProducts',
+            'reviews',
+            'reviewCount',
+            'reviewAverage',
+            'kkiapayConfigured',
+        ));
     }
 
     // Produits choisis par l'admin (réglage JSON), dans l'ordre choisi et
     // limités aux actifs. null si aucun choix (= sélection automatique).
-    protected function chosenProducts(string $key): ?\Illuminate\Support\Collection
+    protected function chosenProducts(string $key): ?Collection
     {
         $raw = setting($key, '[]');
         $ids = json_decode((string) $raw, true);

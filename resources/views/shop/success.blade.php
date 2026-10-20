@@ -82,6 +82,10 @@
                     Nous vous appellerons au <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $order->phone }}</span> pour confirmer la livraison.
                 </p>
 
+                <a href="{{ route('reviews.create', $order->order_number) }}" class="mt-5 inline-flex text-sm font-semibold text-sky-700 hover:underline dark:text-sky-400">
+                    Partager mon expérience
+                </a>
+
                 <div class="flex flex-col sm:flex-row gap-3 mt-8">
                     <a href="{{ route('shop.index') }}" class="flex-1 bg-sky-600 text-white font-bold py-2.5 rounded-lg hover:bg-sky-700 text-sm text-center">
                         Retour à la boutique

@@ -19,6 +19,7 @@ class LatestArticles extends TableWidget
     public function table(Table $table): Table
     {
         return $table
+            ->heading('Derniers articles')
             ->query(Product::query()->with('category')->latest()->limit(8))
             ->columns([
                 ImageColumn::make('images')
@@ -36,7 +37,7 @@ class LatestArticles extends TableWidget
 
                 TextColumn::make('price')
                     ->label('Prix')
-                    ->formatStateUsing(fn ($state) => number_format((int) round($state * Product::FCFA_RATE), 0, ',', ' ') . ' FCFA'),
+                    ->formatStateUsing(fn ($state) => number_format((int) round($state * Product::FCFA_RATE), 0, ',', ' ').' FCFA'),
 
                 TextColumn::make('stock_quantity')
                     ->label('Stock'),

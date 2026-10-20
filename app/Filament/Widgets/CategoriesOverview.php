@@ -19,6 +19,7 @@ class CategoriesOverview extends TableWidget
     public function table(Table $table): Table
     {
         return $table
+            ->heading('Catégories')
             ->query(Category::query()->orderBy('sort_order'))
             ->columns([
                 ImageColumn::make('image')

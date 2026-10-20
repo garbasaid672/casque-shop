@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends Model
 {
@@ -56,12 +57,17 @@ class Order extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function review(): HasOne
+    {
+        return $this->hasOne(OrderReview::class);
     }
 
     public function getFullBillingAddressAttribute(): string
@@ -71,9 +77,10 @@ class Order extends Model
 
     public function getFullShippingAddressAttribute(): string
     {
-        if (!$this->shipping_address) {
+        if (! $this->shipping_address) {
             return $this->full_billing_address;
         }
+
         return "{$this->shipping_address}, {$this->shipping_postal_code} {$this->shipping_city}, {$this->shipping_country}";
     }
 }
