@@ -5,8 +5,8 @@
             <div class="pointer-events-none absolute -bottom-20 right-28 size-40 rounded-full bg-white/10 blur-2xl"></div>
             <div class="relative flex flex-wrap items-center justify-between gap-4">
                 <div>
-                    <p class="text-2xl font-semibold tracking-tight text-white sm:text-3xl">Bienvenue</p>
-                    <strong class="mt-1 block text-3xl font-black tracking-tight text-white sm:text-4xl">Administrateur</strong>
+                    <p style="color: #0000FF;" class="text-7xl font-bold tracking-tight sm:text-8xl">Bienvenue</p>
+                    <strong class="mt-1 block text-4xl font-black tracking-tight text-white sm:text-5xl">Administrateur</strong>
                 </div>
                 <div class="sm:text-right">
                     <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">Tableau de bord</h1>
