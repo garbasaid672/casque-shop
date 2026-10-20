@@ -234,11 +234,12 @@ section{padding:56px 0 8px}
 .story-play:hover{background:#bae6fd}
 .story-player.is-paused .story-pause-icon,.story-player:not(.is-paused) .story-resume-icon{display:none}
 .story-play-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
-.story-progress{position:relative;flex:1;height:5px;overflow:hidden;border-radius:99px;background:#e2e8f0}
-.story-progress::after{position:absolute;inset:0 auto 0 0;width:0;border-radius:inherit;background:linear-gradient(90deg,#0284c7,#fbbf24);content:"";animation:storyProgress 24s linear infinite}
-@keyframes storyProgress{to{width:100%}}
+.story-progress{flex:1;min-width:0;height:6px;margin:0;appearance:none;border-radius:99px;background:#e2e8f0;cursor:pointer}
+.story-progress::-webkit-slider-runnable-track{height:6px;border-radius:99px;background:transparent}
+.story-progress::-moz-range-track{height:6px;border-radius:99px;background:transparent}
+.story-progress::-webkit-slider-thumb{width:16px;height:16px;margin-top:-5px;appearance:none;border:2px solid #fff;border-radius:50%;background:#0284c7;box-shadow:0 1px 4px rgba(15,23,42,.3)}
+.story-progress::-moz-range-thumb{width:12px;height:12px;border:2px solid #fff;border-radius:50%;background:#0284c7;box-shadow:0 1px 4px rgba(15,23,42,.3)}
 .story-caption{color:#64748b;font-size:11px;font-weight:700;white-space:nowrap}
-.story-player.is-paused .flow-scene,.story-player.is-paused .story-progress::after,.story-player.is-paused .scene-visual img{animation-play-state:paused}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .empty{text-align:center;padding:48px 0;color:var(--muted)}
 footer{margin-top:64px;background:var(--navy);color:#9fb0cf;padding:56px 0 28px;font-size:14px}
@@ -262,12 +263,12 @@ footer a:hover{color:var(--yellow)}
 @media (max-width:980px){.stage{width:100%;max-width:640px;margin:12px auto 0}.client-dashboard{transform:none}}
 @media (max-width:700px){.dashboard-content{grid-template-columns:1fr}.dashboard-chart{height:75px}}
 @media (max-width:560px){.client-dashboard{padding:7px;border-radius:18px}.dashboard-window{padding:12px}.dashboard-kpis{gap:5px}.dashboard-kpi{padding:7px}.dashboard-kpi strong{font-size:11px}.dashboard-greeting h2{font-size:14px}.video-section{padding:22px 14px;border-radius:20px}.video-intro{margin-bottom:17px}.story-stage{min-height:455px;aspect-ratio:auto}.flow-scene{grid-template-columns:1fr;grid-template-rows:auto 1fr;align-items:start;gap:0;padding:18px 20px}.scene-copy h3{margin-top:8px;font-size:22px}.scene-copy p{margin-top:6px;font-size:12px}.scene-visual{min-height:210px;align-self:end}.scene-visual.photo-pair img{min-height:210px}.story-controls{gap:9px;padding:10px 12px}.story-caption{font-size:9px}}
-@media (prefers-reduced-motion:reduce){.flow-scene{opacity:0;animation:none!important}.flow-scene:first-child{opacity:1}.dashboard-chart-line{stroke-dashoffset:0}.story-play,.story-progress{display:none}}
+@media (prefers-reduced-motion:reduce){.flow-scene{opacity:0;animation:none!important}.flow-scene:first-child{opacity:1}.dashboard-chart-line{stroke-dashoffset:0}.story-play,#story-seek{display:none}}
 @media (max-width:560px){.dashboard-layout{grid-template-columns:minmax(0,1fr);gap:8px}.dashboard-sidebar{display:flex;gap:8px;overflow-x:auto;padding:6px}.dashboard-side-brand{display:none}.dashboard-menu-group{display:flex;flex:none;align-items:center;gap:3px;margin:0}.dashboard-menu-title{display:none}.dashboard-menu-item{flex:none;margin:0;padding:5px 6px;font-size:7px}.dashboard-menu-item svg{width:10px;height:10px}.dashboard-main{min-width:0}.dashboard-window{padding:9px}.scene-visual{min-height:210px}.scene-visual.photo-pair img{min-height:210px}.scene-callout{right:7px;bottom:7px;left:7px;padding:7px;font-size:9px}}
 @media (max-width:980px){.dashboard-welcome-kpis{grid-template-columns:1fr 1fr 1fr}.dashboard-welcome{grid-column:1/-1}}
 @media (max-width:560px){.dashboard-browser{margin-bottom:6px;font-size:8px}.dashboard-welcome-kpis{gap:4px}.dashboard-kpi.compact{padding:5px}.dashboard-kpi.compact span{font-size:6px}.dashboard-kpi.compact strong{font-size:8px}}
 @media (min-width:561px) and (max-width:980px){.dashboard-layout{grid-template-columns:120px minmax(0,1fr)}.dashboard-content{grid-template-columns:1fr}}
-.story-player:not(.is-in-view) .flow-scene,.story-player:not(.is-in-view) .story-progress::after,.story-player:not(.is-in-view) .scene-visual img{animation-play-state:paused}
+.story-player:not(.is-in-view) .flow-scene,.story-player:not(.is-in-view) .scene-visual img{animation-play-state:paused}
 </style>
 @php
 // Réglages admin (Admin > Gestion > Accueil du site), valeurs sûres uniquement.
@@ -528,7 +529,16 @@ $icons = ['#hp', '#bud', '#spk'];
 <svg class="story-resume-icon" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="m8 5 12 7-12 7z" fill="currentColor"/></svg>
 <span class="sr-only">Mettre l’animation en pause</span>
 </button>
-<div class="story-progress" aria-hidden="true"></div>
+<input
+    class="story-progress"
+    id="story-seek"
+    type="range"
+    min="0"
+    max="24000"
+    step="100"
+    value="0"
+    aria-label="Avancer ou reculer dans l’animation"
+/>
 <span class="story-caption" aria-hidden="true">PHOTOS STOCK · UNSPLASH</span>
 </div>
 <p class="sr-only">Animation illustrative en quatre étapes : le client ouvre la boutique sur son téléphone, choisit un casque, règle sa commande, puis reçoit son colis des mains du livreur à moto. Les scènes et les données du tableau de bord sont des exemples.</p>
@@ -638,29 +648,93 @@ $icons = ['#hp', '#bud', '#spk'];
 
     var storyPlayer = document.getElementById('order-story');
     var storyPlay = document.getElementById('story-play');
+    var storySeek = document.getElementById('story-seek');
     var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (storyPlayer && storyPlay) {
+    if (storyPlayer && storyPlay && storySeek) {
+        var storyDuration = 24000;
+        var storyTime = 0;
+        var storyPaused = false;
+        var storyInView = true;
+        var storyFrame = null;
+        var lastStoryFrameTime = null;
+        var storyAnimations = Array.from(storyPlayer.querySelectorAll('*'))
+            .flatMap(function (element) {
+                return element.getAnimations();
+            });
+
+        function renderStoryTime(time) {
+            storyTime = Math.max(0, Math.min(time, storyDuration));
+            storyAnimations.forEach(function (animation) {
+                animation.currentTime = storyTime;
+            });
+            storySeek.value = String(storyTime);
+            var progress = storyTime / storyDuration * 100;
+            storySeek.style.background =
+                'linear-gradient(90deg, #0284c7, #fbbf24) 0 / ' + progress + '% 100% no-repeat, #e2e8f0';
+        }
+
+        function syncStoryPlayback() {
+            var shouldPlay = !storyPaused && storyInView && !reducedMotion.matches;
+            if (shouldPlay && storyFrame === null) {
+                storyAnimations.forEach(function (animation) {
+                    animation.play();
+                });
+                lastStoryFrameTime = null;
+                storyFrame = requestAnimationFrame(tickStory);
+            } else if (!shouldPlay && storyFrame !== null) {
+                cancelAnimationFrame(storyFrame);
+                storyFrame = null;
+                lastStoryFrameTime = null;
+                storyAnimations.forEach(function (animation) {
+                    animation.pause();
+                });
+            }
+        }
+
+        function tickStory(timestamp) {
+            if (storyPaused || !storyInView || reducedMotion.matches) {
+                storyFrame = null;
+                return;
+            }
+            if (lastStoryFrameTime !== null) {
+                renderStoryTime((storyTime + timestamp - lastStoryFrameTime) % storyDuration);
+            }
+            lastStoryFrameTime = timestamp;
+            storyFrame = requestAnimationFrame(tickStory);
+        }
+
+        renderStoryTime(0);
+
         // Gestion de l'état de pause de l'animation
         function setStoryPaused(paused) {
-            storyPlayer.classList.toggle('is-paused', paused);
+            storyPaused = paused;
+            storyPlayer.classList.toggle('is-paused', storyPaused);
             var label = paused ? 'Reprendre l’animation' : 'Mettre l’animation en pause';
             storyPlay.setAttribute('aria-label', label);
             storyPlay.querySelector('.sr-only').textContent = label;
+            syncStoryPlayback();
         }
 
         storyPlay.addEventListener('click', function () {
-            setStoryPaused(!storyPlayer.classList.contains('is-paused'));
+            setStoryPaused(!storyPaused);
         });
-       // Fonction pour appliquer la préférence de mouvement réduit
+
+        storySeek.addEventListener('input', function () {
+            renderStoryTime(Number(storySeek.value));
+        });
+
         function applyMotionPreference() {
             storyPlay.hidden = reducedMotion.matches;
-            setStoryPaused(reducedMotion.matches);
+            storySeek.hidden = reducedMotion.matches;
+            syncStoryPlayback();
         }
 
         if ('IntersectionObserver' in window) {
             var storyObserver = new IntersectionObserver(function (entries) {
                 entries.forEach(function (entry) {
-                    storyPlayer.classList.toggle('is-in-view', entry.isIntersecting);
+                    storyInView = entry.isIntersecting;
+                    storyPlayer.classList.toggle('is-in-view', storyInView);
+                    syncStoryPlayback();
                 });
             }, { threshold: 0.2 });
             storyObserver.observe(storyPlayer);
