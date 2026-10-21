@@ -303,34 +303,7 @@ $heroH1 = ($escHl !== '') ? str_replace($escHl, '<em>'.$escHl.'</em>', e($heroTi
 </defs>
 </svg>
 
-<header>
-<div class="wrap bar">
-<a href="{{ route('home') }}" class="logo">{{ site_name() }}</a>
-<nav class="main-nav" id="main-nav" aria-label="Navigation principale"><a class="on" href="{{ route('home') }}">Accueil</a><a href="{{ route('shop.index') }}">Boutique</a><a href="{{ route('categories.index') }}">Catégories</a><a href="{{ route('support.faq') }}">FAQ</a><a href="{{ route('contact') }}">Contact</a><a class="mobile-nav-item" href="{{ route('shop.index') }}">Recherche</a>
-@auth
-<form class="mobile-nav-logout-form" method="POST" action="{{ route('logout') }}">@csrf<button type="submit" class="mobile-nav-logout">Déconnexion</button></form>
-@else
-<a class="mobile-nav-item mobile-nav-login" href="{{ route('filament.admin.auth.login') }}">Connexion</a>
-@endauth
-<button class="nav-theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><span>Changer de thème</span></button></nav>
-<div class="tools">
-<button class="mobile-menu-toggle" id="mobile-menu-toggle" type="button" aria-label="Ouvrir le menu" aria-controls="main-nav" aria-expanded="false">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-</button>
-<a class="ic" href="{{ route('shop.index') }}" aria-label="Rechercher"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
-<button class="ic desktop-theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
-@auth
-<span class="hello">Bonjour, {{ Auth::user()->name }}</span>
-<form method="POST" action="{{ route('logout') }}" style="display:inline">
-@csrf
-<button type="submit" class="login">Déconnexion</button>
-</form>
-@else
-<a class="login" href="{{ route('filament.admin.auth.login') }}">Connexion</a>
-@endauth
-</div>
-</div>
-</header>
+@include('components.site-header')
 
 <div class="hero" style="background:linear-gradient(150deg,{{ $heroFrom }},#10204f 55%,{{ $heroTo }})">
 <div class="blob b1"></div><div class="blob b2"></div><div class="grid"></div>
@@ -625,41 +598,6 @@ $icons = ['#hp', '#bud', '#spk'];
 </footer>
 
 <script>
-// Thème : même clé 'theme' que le reste du site (clair/sombre persisté partout).
-(function () {
-    var root = document.documentElement;
-    function apply(dark) {
-        root.dataset.theme = dark ? 'dark' : 'light';
-        root.classList.toggle('dark', dark);
-        try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
-    }
-    document.querySelectorAll('[data-theme-toggle]').forEach(function (button) {
-        button.addEventListener('click', function () {
-            apply(root.dataset.theme !== 'dark');
-            closeMenu();
-        });
-    });
-
-    var menu = document.getElementById('main-nav');
-    var menuToggle = document.getElementById('mobile-menu-toggle');
-    //Fonction pour fermer le menu et mettre à jour les attributs ARIA
-    function closeMenu() {
-        menu.classList.remove('nav-open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-        menuToggle.setAttribute('aria-label', 'Ouvrir le menu');
-    }
-    menuToggle.addEventListener('click', function () {
-        var isOpen = menu.classList.toggle('nav-open');
-        menuToggle.setAttribute('aria-expanded', String(isOpen));
-        menuToggle.setAttribute('aria-label', isOpen ? 'Fermer le menu' : 'Ouvrir le menu');
-    });
-    menu.addEventListener('click', function (event) {
-        if (event.target.closest('a')) closeMenu();
-    });
-    document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape') closeMenu();
-    });
-
     var storyPlayer = document.getElementById('order-story');
     var storyPlay = document.getElementById('story-play');
     var storySeek = document.getElementById('story-seek');

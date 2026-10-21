@@ -58,15 +58,7 @@ footer{background:var(--navy);color:#9fb0cf;padding:24px 0;font-size:14px;text-a
 </head>
 <body>
 
-<header>
-<div class="wrap bar">
-<a href="{{ route('home') }}" class="logo">{{ site_name() }}</a>
-<div class="tools">
-<button class="ic" id="theme" aria-label="Changer de thème"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
-<a href="{{ route('home') }}" class="back">&larr; Retour à l'accueil</a>
-</div>
-</div>
-</header>
+@include('components.site-header')
 
 <main>
 <div class="card">
@@ -105,19 +97,5 @@ footer{background:var(--navy);color:#9fb0cf;padding:24px 0;font-size:14px;text-a
 <div class="wrap">&copy; {{ date('Y') }} {{ site_name() }}. Tous droits réservés.</div>
 </footer>
 
-<script>
-// Thème : même clé 'theme' que le reste du site (clair/sombre persisté partout).
-(function () {
-    var root = document.documentElement;
-    function apply(dark) {
-        root.dataset.theme = dark ? 'dark' : 'light';
-        root.classList.toggle('dark', dark);
-        try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
-    }
-    document.getElementById('theme').onclick = function () {
-        apply(root.dataset.theme !== 'dark');
-    };
-})();
-</script>
 </body>
 </html>

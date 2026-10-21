@@ -32,7 +32,6 @@ class Login extends BaseLogin
             ->email()
             ->required()
             ->autocomplete()
-            ->autofocus()
             // Compte d'essai pré-rempli (tests uniquement, à retirer en production)
             ->default('admin@example.com');
     }

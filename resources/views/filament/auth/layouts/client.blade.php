@@ -85,6 +85,105 @@
         /* ===== Page de connexion : corps + carte ===== */
         body.auth-body{min-height:100vh;display:flex;flex-direction:column}
         main.auth-main{flex:1;display:flex;align-items:center;justify-content:center;padding:48px 18px}
+        @media (max-width:640px){
+            html.fi{
+                width:100%!important;
+                height:auto!important;
+                min-height:100dvh!important;
+                overflow-x:hidden!important;
+                overflow-y:auto!important;
+            }
+            body.auth-body{
+                position:static!important;
+                display:block!important;
+                width:100vw!important;
+                max-width:100vw!important;
+                height:auto!important;
+                min-height:100dvh!important;
+                overflow-x:hidden!important;
+                overflow-y:visible!important;
+                background-attachment:scroll!important;
+            }
+            body.auth-body>.site-header{
+                display:block!important;
+                position:sticky!important;
+                top:0!important;
+                width:100vw!important;
+                min-width:100vw!important;
+                max-width:100vw!important;
+                margin-right:0!important;
+                margin-left:0!important;
+                box-sizing:border-box!important;
+            }
+            body.auth-body>footer{
+                display:block!important;
+                position:static!important;
+                width:100vw!important;
+                min-width:100vw!important;
+                max-width:100vw!important;
+                margin-right:0!important;
+                margin-left:0!important;
+                box-sizing:border-box!important;
+            }
+            body.auth-body>footer>.wrap{
+                width:100%!important;
+                max-width:1180px!important;
+                margin-right:auto!important;
+                margin-left:auto!important;
+            }
+            body.auth-body>footer .fg{
+                grid-template-columns:minmax(0,1fr)!important;
+            }
+            body.auth-body>footer .fg>*{
+                min-width:0!important;
+            }
+            body.auth-body>.site-header>.site-header-inner,
+            body.auth-body>footer>.wrap{
+                width:100%!important;
+                box-sizing:border-box!important;
+            }
+            main.auth-main{
+                display:block!important;
+                width:100%!important;
+                height:auto!important;
+                min-height:0!important;
+                padding:24px 12px!important;
+            }
+            .login-wrap,
+            .fi-simple-layout,
+            .fi-simple-main-ctn,
+            .fi-simple-main,
+            .fi-simple-header,
+            .fi-simple-header-heading,
+            .fi-simple-header-subheading{
+                position:static!important;
+                inset:auto!important;
+                transform:none!important;
+                align-self:stretch!important;
+                height:auto!important;
+                min-height:0!important;
+                overflow:visible!important;
+            }
+            .fi-body,
+            .fi-simple-layout,
+            .fi-simple-main-ctn{
+                overflow-y:visible!important;
+            }
+            .fi-simple-layout{
+                display:block!important;
+                width:100%!important;
+                align-items:stretch!important;
+                justify-content:flex-start!important;
+            }
+            .fi-simple-main-ctn{
+                display:block!important;
+                width:100%!important;
+                flex:none!important;
+                justify-content:flex-start!important;
+                margin:0 auto!important;
+            }
+            .fi-simple-main{margin:0 auto!important}
+        }
         /* Champs identifiant / mot de passe : pleine largeur, hauteur réduite */
         .fi-input-wrp,
         .fi-fo-text-input,
@@ -176,39 +275,7 @@
     </style>
 </head>
 <body class="auth-body" style="background: linear-gradient(rgba(2, 6, 23, 0.84), rgba(2, 6, 23, 0.72)), url('/storage/categories/cat-1.jpg') center / cover no-repeat fixed; background-color: #020617;">
-    <!-- ========== HEADER (identique à l'accueil) ========== -->
-    <header>
-        <div class="wrap bar">
-            <a href="{{ route('home') }}" class="logo">{{ site_name() }}</a>
-            <nav class="main-nav" id="main-nav" aria-label="Navigation principale">
-                <a href="{{ route('home') }}">Accueil</a>
-                <a href="{{ route('shop.index') }}">Boutique</a>
-                <a href="{{ route('categories.index') }}">Catégories</a>
-                <a href="{{ route('support.faq') }}">FAQ</a>
-                <a href="{{ route('contact') }}">Contact</a>
-                <button class="nav-theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-                    <span>Changer de thème</span>
-                </button>
-            </nav>
-            <button class="mobile-menu-toggle" id="mobile-menu-toggle" type="button" aria-label="Ouvrir le menu" aria-controls="main-nav" aria-expanded="false">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-            </button>
-            <div class="tools">
-                <a class="ic" href="{{ route('shop.index') }}" aria-label="Rechercher"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
-                <button class="ic desktop-theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
-                @auth
-                <span class="hello">Bonjour, {{ Auth::user()->name }}</span>
-                <form method="POST" action="{{ route('logout') }}" style="display:inline">
-                    @csrf
-                    <button type="submit" class="login">Déconnexion</button>
-                </form>
-                @else
-                <a class="login" href="{{ route('filament.admin.auth.login') }}">Connexion</a>
-                @endauth
-            </div>
-        </div>
-    </header>
+    @include('components.site-header')
 
     <!-- ========== CONTENU (formulaire Livewire Filament) ========== -->
     <main class="auth-main">
@@ -239,40 +306,5 @@
 
     @livewire(Filament\Livewire\Notifications::class)
     @filamentScripts(withCore: true)
-    <script>
-        // Thème : même clé 'theme' que l'accueil (clair/sombre persisté partout).
-        (function () {
-            var root = document.documentElement;
-            function apply(dark) {
-                root.dataset.theme = dark ? 'dark' : 'light';
-                root.classList.toggle('dark', dark);
-                try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
-            }
-            var menu = document.getElementById('main-nav');
-            var menuToggle = document.getElementById('mobile-menu-toggle');
-            function closeMenu() {
-                menu.classList.remove('nav-open');
-                menuToggle.setAttribute('aria-expanded', 'false');
-                menuToggle.setAttribute('aria-label', 'Ouvrir le menu');
-            }
-            document.querySelectorAll('[data-theme-toggle]').forEach(function (button) {
-                button.addEventListener('click', function () {
-                    apply(root.dataset.theme !== 'dark');
-                    closeMenu();
-                });
-            });
-            menuToggle.addEventListener('click', function () {
-                var isOpen = menu.classList.toggle('nav-open');
-                menuToggle.setAttribute('aria-expanded', String(isOpen));
-                menuToggle.setAttribute('aria-label', isOpen ? 'Fermer le menu' : 'Ouvrir le menu');
-            });
-            menu.addEventListener('click', function (event) {
-                if (event.target.closest('a')) closeMenu();
-            });
-            document.addEventListener('keydown', function (event) {
-                if (event.key === 'Escape') closeMenu();
-            });
-        })();
-    </script>
 </body>
 </html>

@@ -14,42 +14,7 @@
     </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
-    <!-- ========== HEADER ========== -->
-    <header class="sticky top-0 z-50 bg-white dark:bg-slate-900 shadow-md border-b border-sky-100 dark:border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Logo -->
-                <div class="flex items-center">
-                    <a href="{{ route('home') }}" class="text-2xl font-extrabold bg-gradient-to-r from-sky-600 via-blue-600 to-amber-500 bg-clip-text text-transparent">
-                        {{ site_name() }}
-                    </a>
-                </div>
-                <!-- Navigation principale -->
-                <nav class="hidden md:flex items-center space-x-8">
-                    <a href="{{ route('home') }}" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 font-medium">Accueil</a>
-                    <a href="{{ route('shop.index') }}" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 font-medium">Boutique</a>
-                    <a href="{{ route('categories.index') }}" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 font-medium">Catégories</a>
-                    <a href="{{ route('support.faq') }}" class="text-sky-600 dark:text-sky-400 font-semibold">FAQ</a>
-                    <a href="{{ route('contact') }}" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 font-medium">Contact</a>
-
-                </nav>
-                <!-- Actions utilisateur -->
-                <div class="flex items-center space-x-4">
-                    @include('components.theme-toggle')
-                    @auth
-                        <span class="text-slate-600 dark:text-slate-300 text-sm">Bonjour, {{ Auth::user()->name }}</span>
-                        <form method="POST" action="{{ route('logout') }}" class="inline">
-                            @csrf
-                            <button type="submit" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 text-sm font-medium">Déconnexion</button>
-                        </form>
-                    @else
-                        <!-- Pas de lien connexion/inscription pour les clients -->
-                        <span class="text-slate-600 dark:text-slate-300 text-sm">Visiteur</span>
-                    @endauth
-                </div>
-            </div>
-        </div>
-    </header>
+    @include('components.site-header')
 
     <main>
         <!-- ========== EN-TÊTE ========== -->
