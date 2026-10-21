@@ -8,7 +8,9 @@ use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Actions;
@@ -49,6 +51,18 @@ class HomepageSettings extends Page
             'hero_to' => setting('hero_to', '#0b4a6f'),
             'home_featured' => self::idsSetting('home_featured'),
             'home_new' => self::idsSetting('home_new'),
+            'home_video_enabled' => setting('home_video_enabled', '1') === '1',
+            'home_video_title' => setting('home_video_title', 'Du téléphone à la livraison'),
+            'home_video_description' => setting(
+                'home_video_description',
+                'Découvrez le parcours d’une commande : le client choisit son produit, règle sa commande et reçoit son casque.'
+            ),
+            'home_reviews_enabled' => setting('home_reviews_enabled', '1') === '1',
+            'home_reviews_title' => setting('home_reviews_title', 'Leur expérience après commande'),
+            'home_reviews_description' => setting(
+                'home_reviews_description',
+                'Chaque avis provient d’une commande livrée et est vérifié par notre équipe avant publication.'
+            ),
         ]);
     }
 
@@ -90,6 +104,46 @@ class HomepageSettings extends Page
                             ->searchable()
                             ->maxItems(4)
                             ->options(fn (): array => Product::where('is_active', true)->orderBy('name')->pluck('name', 'id')->all()),
+                    ]),
+
+                Section::make('Section vidéo')
+                    ->description('Configure l’animation qui présente le parcours d’une commande.')
+                    ->schema([
+                        Toggle::make('home_video_enabled')
+                            ->label('Afficher la section vidéo')
+                            ->default(true),
+
+                        TextInput::make('home_video_title')
+                            ->label('Titre')
+                            ->required()
+                            ->maxLength(120),
+
+                        Textarea::make('home_video_description')
+                            ->label('Description')
+                            ->required()
+                            ->rows(3)
+                            ->maxLength(500)
+                            ->columnSpanFull(),
+                    ]),
+
+                Section::make('Section avis clients')
+                    ->description('Les avis affichés restent ceux approuvés dans le menu Avis clients.')
+                    ->schema([
+                        Toggle::make('home_reviews_enabled')
+                            ->label('Afficher les avis clients')
+                            ->default(true),
+
+                        TextInput::make('home_reviews_title')
+                            ->label('Titre')
+                            ->required()
+                            ->maxLength(120),
+
+                        Textarea::make('home_reviews_description')
+                            ->label('Description')
+                            ->required()
+                            ->rows(3)
+                            ->maxLength(500)
+                            ->columnSpanFull(),
                     ]),
 
                 Section::make('Couleurs')
@@ -151,7 +205,25 @@ class HomepageSettings extends Page
             cache()->forget('setting.'.$key);
         }
 
-        foreach (['hero_title', 'hero_highlight', 'hero_subtitle', 'home_bg', 'hero_from', 'hero_to'] as $key) {
+        foreach (['home_video_enabled', 'home_reviews_enabled'] as $key) {
+            $value = ($data[$key] ?? false) ? '1' : '0';
+
+            Setting::updateOrCreate(['key' => $key], ['value' => $value]);
+            cache()->forget('setting.'.$key);
+        }
+
+        foreach ([
+            'hero_title',
+            'hero_highlight',
+            'hero_subtitle',
+            'home_video_title',
+            'home_video_description',
+            'home_reviews_title',
+            'home_reviews_description',
+            'home_bg',
+            'hero_from',
+            'hero_to',
+        ] as $key) {
             $value = trim((string) ($data[$key] ?? ''));
 
             if (in_array($key, ['home_bg', 'hero_from', 'hero_to'], true) && ! preg_match('/^#[0-9a-fA-F]{6}$/', $value)) {

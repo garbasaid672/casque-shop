@@ -39,6 +39,9 @@ nav a::after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:0;
 nav a:hover,nav a.on{color:var(--text)}
 nav a:hover::after,nav a.on::after{width:100%}
 .nav-theme-toggle{display:none}
+.mobile-nav-item,.mobile-nav-logout-form{display:none}
+.mobile-nav-logout{width:100%;padding:12px 14px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:inherit;font-weight:500;text-align:left}
+.mobile-nav-logout:hover{background:var(--bg);color:var(--text)}
 .mobile-menu-toggle{display:none;width:40px;height:40px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);place-items:center}
 .mobile-menu-toggle svg{width:20px;height:20px}
 .tools{display:flex;align-items:center;gap:6px}
@@ -257,8 +260,9 @@ footer a:hover{color:var(--yellow)}
 .news-mini input::placeholder{color:#7d8db1}
 .news-mini button{border:0;background:var(--yellow);color:#111;border-radius:10px;padding:0 16px;font-weight:700;font-size:13px}
 :focus-visible{outline:3px solid var(--blue);outline-offset:2px}
-@media (max-width:980px){.products,.perks{grid-template-columns:repeat(2,1fr)}.hero .wrap{grid-template-columns:1fr}.stage{max-width:640px;margin:auto}.fg{grid-template-columns:1fr 1fr}.bar{position:relative}.main-nav{display:none;position:absolute;top:100%;left:0;right:0;z-index:55;flex-direction:column;gap:0;padding:10px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 36px rgba(15,23,42,.18)}.main-nav.nav-open{display:flex}.main-nav a{padding:12px 14px;border-radius:9px}.main-nav a:hover{background:var(--bg)}.main-nav a::after{display:none}.nav-theme-toggle{display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;border:0;border-radius:9px;background:transparent;color:var(--text);font-weight:600;text-align:left}.nav-theme-toggle:hover{background:var(--bg)}.nav-theme-toggle svg{width:20px;height:20px}.tools .desktop-theme-toggle{display:none}.mobile-menu-toggle{display:grid}.cats{grid-template-columns:repeat(2,minmax(0,1fr))}.how-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.review-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:560px){.products,.perks,.cats,.how-grid,.review-grid{grid-template-columns:1fr}.hero{padding:50px 0 120px}.wrap{padding:0 18px}.fg{grid-template-columns:1fr}.logo{font-size:19px}.hello{display:none}.login{padding:7px 10px;font-size:12px;margin-left:0}.bar{gap:6px}.mobile-menu-toggle{width:36px;height:36px;flex:none}.tools{gap:2px}.tools .ic:first-child{display:none}.tools .ic{width:36px;height:36px}.head h2{font-size:24px}.how-section{padding:24px 18px;border-radius:20px}.how-step{min-height:0;padding:18px}.how-step-icon{margin:14px 0 10px}.reviews-intro{align-items:start;flex-direction:column}.reviews-average{display:flex;align-items:center;gap:10px;text-align:left;padding:8px 12px}.reviews-average strong{font-size:18px}}
+@media (max-width:980px){.products,.perks{grid-template-columns:repeat(2,1fr)}.hero .wrap{grid-template-columns:1fr}.stage{max-width:640px;margin:auto}.fg{grid-template-columns:1fr 1fr}.bar{position:relative}.main-nav{display:none;position:absolute;top:100%;left:0;right:0;z-index:55;flex-direction:column;gap:0;padding:10px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 36px rgba(15,23,42,.18)}.main-nav.nav-open{display:flex}.main-nav a{padding:12px 14px;border-radius:9px}.main-nav a:hover{background:var(--bg)}.main-nav a::after{display:none}.main-nav a.mobile-nav-login{display:inline-block;width:fit-content;margin:6px 14px;padding:8px 18px;border:1.5px solid var(--text);border-radius:10px;background:transparent;color:var(--text);font-weight:600;text-align:center}.main-nav a.mobile-nav-login:hover{background:var(--text);color:var(--bg)}.mobile-nav-item{display:block}.mobile-nav-logout-form{display:block}.nav-theme-toggle{display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;border:0;border-radius:9px;background:transparent;color:var(--text);font-weight:600;text-align:left}.nav-theme-toggle:hover{background:var(--bg)}.nav-theme-toggle svg{width:20px;height:20px}.tools .desktop-theme-toggle,.tools>a.ic,.tools>a.login,.tools>form,.tools>.hello{display:none}.mobile-menu-toggle{display:grid}.cats{grid-template-columns:repeat(2,minmax(0,1fr))}.how-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.review-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.products,.perks,.cats,.how-grid,.review-grid{grid-template-columns:1fr}.hero{padding:50px 0 120px}.wrap{padding:0 18px}.fg{grid-template-columns:1fr}.logo{font-size:19px}.hello{display:none}.login{padding:7px 10px;font-size:12px;margin-left:0}.bar{gap:6px}.mobile-menu-toggle{width:36px;height:36px;flex:none}.tools{gap:2px}.tools .ic{width:36px;height:36px}.head h2{font-size:24px}.how-section{padding:24px 18px;border-radius:20px}.how-step{min-height:0;padding:18px}.how-step-icon{margin:14px 0 10px}.reviews-intro{align-items:start;flex-direction:column}.reviews-average{display:flex;align-items:center;gap:10px;text-align:left;padding:8px 12px}.reviews-average strong{font-size:18px}}
+@media (max-width:980px){.logo{order:1}.tools{order:2;margin-left:auto}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 @media (max-width:980px){.stage{width:100%;max-width:640px;margin:12px auto 0}.client-dashboard{transform:none}}
 @media (max-width:700px){.dashboard-content{grid-template-columns:1fr}.dashboard-chart{height:75px}}
@@ -302,11 +306,17 @@ $heroH1 = ($escHl !== '') ? str_replace($escHl, '<em>'.$escHl.'</em>', e($heroTi
 <header>
 <div class="wrap bar">
 <a href="{{ route('home') }}" class="logo">{{ site_name() }}</a>
-<nav class="main-nav" id="main-nav" aria-label="Navigation principale"><a class="on" href="{{ route('home') }}">Accueil</a><a href="{{ route('shop.index') }}">Boutique</a><a href="{{ route('categories.index') }}">Catégories</a><a href="{{ route('support.faq') }}">FAQ</a><a href="{{ route('contact') }}">Contact</a><button class="nav-theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><span>Changer de thème</span></button></nav>
+<nav class="main-nav" id="main-nav" aria-label="Navigation principale"><a class="on" href="{{ route('home') }}">Accueil</a><a href="{{ route('shop.index') }}">Boutique</a><a href="{{ route('categories.index') }}">Catégories</a><a href="{{ route('support.faq') }}">FAQ</a><a href="{{ route('contact') }}">Contact</a><a class="mobile-nav-item" href="{{ route('shop.index') }}">Recherche</a>
+@auth
+<form class="mobile-nav-logout-form" method="POST" action="{{ route('logout') }}">@csrf<button type="submit" class="mobile-nav-logout">Déconnexion</button></form>
+@else
+<a class="mobile-nav-item mobile-nav-login" href="{{ route('filament.admin.auth.login') }}">Connexion</a>
+@endauth
+<button class="nav-theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><span>Changer de thème</span></button></nav>
+<div class="tools">
 <button class="mobile-menu-toggle" id="mobile-menu-toggle" type="button" aria-label="Ouvrir le menu" aria-controls="main-nav" aria-expanded="false">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
 </button>
-<div class="tools">
 <a class="ic" href="{{ route('shop.index') }}" aria-label="Rechercher"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
 <button class="ic desktop-theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
 @auth
@@ -489,11 +499,12 @@ $icons = ['#hp', '#bud', '#spk'];
 </section>
 @endif
 
+@if($homeVideoEnabled)
 <section id="comment-commander" class="video-section" aria-labelledby="how-heading">
 <div class="video-intro">
 <span class="how-kicker"><span aria-hidden="true">✦</span> Simple et sécurisé</span>
-<h2 id="how-heading">Du téléphone à la livraison</h2>
-<p>Découvrez le parcours d’une commande : le client choisit son produit, règle sa commande et reçoit son casque.</p>
+<h2 id="how-heading">{{ $homeVideoTitle }}</h2>
+<p>{{ $homeVideoDescription }}</p>
 @unless($kkiapayConfigured)
 <p class="how-note">KkiaPay n’est pas activé actuellement. Le moyen de paiement en ligne ne sera proposé que lorsqu’il sera configuré.</p>
 @endunless
@@ -544,13 +555,15 @@ $icons = ['#hp', '#bud', '#spk'];
 <p class="sr-only">Animation illustrative en quatre étapes : le client ouvre la boutique sur son téléphone, choisit un casque, règle sa commande, puis reçoit son colis des mains du livreur à moto. Les scènes et les données du tableau de bord sont des exemples.</p>
 </div>
 </section>
+@endif
 
+@if($homeReviewsEnabled)
 <section class="reviews-section" id="avis-clients" aria-labelledby="reviews-heading">
 <div class="reviews-intro">
 <div>
 <span class="how-kicker"><span aria-hidden="true">✦</span> Avis vérifiés</span>
-<h2 id="reviews-heading">Leur expérience après commande</h2>
-<p>Chaque avis provient d’une commande livrée et est vérifié par notre équipe avant publication.</p>
+<h2 id="reviews-heading">{{ $homeReviewsTitle }}</h2>
+<p>{{ $homeReviewsDescription }}</p>
 </div>
 @if($reviews->isNotEmpty())
 <div class="reviews-average" aria-label="Note moyenne des clients">
@@ -581,6 +594,7 @@ $icons = ['#hp', '#bud', '#spk'];
 @endif
 <p class="reviews-invite">Vous avez déjà payé ou reçu une commande ? Le lien pour partager votre expérience se trouve sur votre page de confirmation.</p>
 </section>
+@endif
 
 <section>
 <div class="perks">

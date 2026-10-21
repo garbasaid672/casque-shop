@@ -46,6 +46,18 @@ class HomeController extends Controller
         $reviewCount = OrderReview::where('is_approved', true)->count();
         $reviewAverage = OrderReview::where('is_approved', true)->avg('rating');
         $kkiapayConfigured = $kkiapay->isConfigured();
+        $homeVideoEnabled = setting('home_video_enabled', '1') === '1';
+        $homeVideoTitle = setting('home_video_title', 'Du téléphone à la livraison');
+        $homeVideoDescription = setting(
+            'home_video_description',
+            'Découvrez le parcours d’une commande : le client choisit son produit, règle sa commande et reçoit son casque.'
+        );
+        $homeReviewsEnabled = setting('home_reviews_enabled', '1') === '1';
+        $homeReviewsTitle = setting('home_reviews_title', 'Leur expérience après commande');
+        $homeReviewsDescription = setting(
+            'home_reviews_description',
+            'Chaque avis provient d’une commande livrée et est vérifié par notre équipe avant publication.'
+        );
 
         return view('home', compact(
             'featuredProducts',
@@ -55,6 +67,12 @@ class HomeController extends Controller
             'reviewCount',
             'reviewAverage',
             'kkiapayConfigured',
+            'homeVideoEnabled',
+            'homeVideoTitle',
+            'homeVideoDescription',
+            'homeReviewsEnabled',
+            'homeReviewsTitle',
+            'homeReviewsDescription',
         ));
     }
 
