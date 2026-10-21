@@ -14,22 +14,7 @@
     </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
-    <!-- ========== HEADER ========== -->
-    <header class="sticky top-0 z-50 bg-white dark:bg-slate-900 shadow-md border-b border-sky-100 dark:border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="{{ route('home') }}" class="text-2xl font-extrabold bg-gradient-to-r from-sky-600 via-blue-600 to-amber-500 bg-clip-text text-transparent">
-                    {{ site_name() }}
-                </a>
-                <div class="flex items-center space-x-3">
-                    @include('components.theme-toggle')
-                    <a href="{{ route('product.show', $product) }}" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 font-medium text-sm">
-                        &larr; Retour au produit
-                    </a>
-                </div>
-            </div>
-        </div>
-    </header>
+    @include('components.site-header')
 
     <main class="py-10">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">

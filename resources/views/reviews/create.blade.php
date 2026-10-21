@@ -10,12 +10,7 @@
     <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
 <body class="min-h-screen bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-    <header class="border-b border-sky-100 bg-white dark:border-slate-800 dark:bg-slate-900">
-        <div class="mx-auto flex h-16 max-w-3xl items-center justify-between px-4">
-            <a href="{{ route('home') }}" class="text-xl font-extrabold text-sky-700 dark:text-sky-400">{{ site_name() }}</a>
-            @include('components.theme-toggle')
-        </div>
-    </header>
+    @include('components.site-header')
 
     <main class="mx-auto max-w-xl px-4 py-12">
         <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-xl dark:border-slate-800 dark:bg-slate-900 sm:p-8">
