@@ -31,7 +31,7 @@ class UsersTable
                     ->searchable()
                     ->toggleable(),
 
-                TextColumn::make('quartier')
+                TextColumn::make('quartier') 
                     ->label('Quartier')
                     ->toggleable(),
 
