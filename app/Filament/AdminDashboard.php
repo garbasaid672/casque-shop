@@ -11,7 +11,7 @@ class AdminDashboard extends Dashboard
     {
         return null;
     }
-
+    //Personnaliser nombre de colonne sur dashbord admin
     public function getColumns(): int|array
     {
         return ['default' => 1, 'md' => 2];
