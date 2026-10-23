@@ -596,7 +596,7 @@ $icons = ['#hp', '#bud', '#spk'];
 <div class="copy"><span>&copy; {{ date('Y') }} {{ site_name() }}. Tous droits réservés. </span></div>
 </div>
 </footer>
-
+<!-- Scripte d'animation de la video sur la page d'accueil -->
 <script>
     var storyPlayer = document.getElementById('order-story');
     var storyPlay = document.getElementById('story-play');
@@ -697,7 +697,6 @@ $icons = ['#hp', '#bud', '#spk'];
         applyMotionPreference();
         reducedMotion.addEventListener('change', applyMotionPreference);
     }
-})();
 </script>
 </body>
 </html>
