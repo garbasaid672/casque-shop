@@ -1,7 +1,7 @@
 <style>
     .site-header{position:sticky;top:0;z-index:1000;width:100%;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);border-bottom:1px solid #e3e8f0}
     .dark .site-header{background:rgba(11,16,32,.9);border-color:#252e48}
-    .site-header-inner{position:relative;display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;max-width:1180px;height:68px;margin:auto;padding:0 24px}
+    .site-header-inner{position:relative;display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;max-width:1180px;height:55px;margin:auto;padding:0 24px}
     .site-header-logo{flex:none;font-size:24px;font-weight:800;background:linear-gradient(90deg,#1d6fd6,#d99a1c);-webkit-background-clip:text;background-clip:text;color:transparent;text-decoration:none}
     .site-header-nav{display:flex;align-items:center;gap:30px}
     .site-header-nav a{position:relative;padding:4px 0;color:#5b6478;font-weight:500;text-decoration:none}
