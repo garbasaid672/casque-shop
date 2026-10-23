@@ -273,6 +273,20 @@ footer a:hover{color:var(--yellow)}
 @media (max-width:560px){.dashboard-browser{margin-bottom:6px;font-size:8px}.dashboard-welcome-kpis{gap:4px}.dashboard-kpi.compact{padding:5px}.dashboard-kpi.compact span{font-size:6px}.dashboard-kpi.compact strong{font-size:8px}}
 @media (min-width:561px) and (max-width:980px){.dashboard-layout{grid-template-columns:120px minmax(0,1fr)}.dashboard-content{grid-template-columns:1fr}}
 .story-player:not(.is-in-view) .flow-scene,.story-player:not(.is-in-view) .scene-visual img{animation-play-state:paused}
+.back-to-top {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1000;
+    display: grid;
+    width: 48px;
+    height: 48px;
+    place-items: center;
+    border-radius: 50%;
+    background: #0a84c6;
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, .2);
+}
 </style>
 @php
 // Réglages admin (Admin > Gestion > Accueil du site), valeurs sûres uniquement.
@@ -695,5 +709,12 @@ $icons = ['#hp', '#bud', '#spk'];
         reducedMotion.addEventListener('change', applyMotionPreference);
     }
 </script>
+<a class="back-to-top" href="#top" aria-label="Retour en haut de la page">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none"
+         stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+         stroke-linejoin="round" aria-hidden="true">
+        <path d="m5 12 7-7 7 7M12 5v14"/>
+    </svg>
+</a>
 </body>
 </html>
