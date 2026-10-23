@@ -585,10 +585,7 @@ $icons = ['#hp', '#bud', '#spk'];
 <div>
 <div class="logo" style="font-size:22px;display:inline-block">{{ site_name() }}</div>
 <p style="margin-top:10px;max-width:280px">Votre spécialiste casques audio de qualité.</p>
-<div class="news-mini">
-<p>Inscrivez-vous pour nos offres exclusives.</p>
-<form><input type="email" placeholder="Votre email" aria-label="Votre email"><button>S'inscrire</button></form>
-</div>
+
 </div>
 <div><h4>Liens rapides</h4><ul><li><a href="{{ route('home') }}">Accueil</a></li><li><a href="{{ route('shop.index') }}">Boutique</a></li><li><a href="{{ route('categories.index') }}">Catégories</a></li><li><a href="{{ route('contact') }}">Contact</a></li></ul></div>
 <div><h4>Support</h4><ul><li><a href="{{ route('support.faq') }}">FAQ</a></li><li><a href="{{ route('support.shipping') }}">Livraison</a></li><li><a href="{{ route('support.returns') }}">Retours</a></li><li><a href="{{ route('support.warranty') }}">Garantie</a></li></ul></div>
