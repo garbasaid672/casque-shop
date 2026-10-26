@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\Order;
 use App\Mail\PaymentConfirmed;
+use App\Models\Order;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -71,38 +71,45 @@ class KkiaPayService
 
     // Valide le paiement d'une commande à partir de la réponse KkiaPay.
     // Idempotent : une commande déjà payée reste payée sans double traitement.
-    public function confirmOrderPayment(Order $order, array $transaction): bool
+    public function confirmOrderPayment(Order $order, array $transaction, ?string $expectedTransactionId = null): bool
     {
-        return $this->confirmFailureReason($order, $transaction) === 'success';
+        return $this->confirmFailureReason($order, $transaction, $expectedTransactionId) === 'success';
     }
 
-    // Cherche un champ (status, amount, transactionId...) à la racine de la
-    // réponse ou dans les sous-tableaux 'transaction' / 'data' (format API variable).
+    // Cherche un champ dans la réponse KkiaPay et ses enveloppes imbriquées.
     public function transactionField(array $transaction, array $keys): mixed
     {
-        foreach ($keys as $key) {
-            if (array_key_exists($key, $transaction)) {
-                return $transaction[$key];
+        $findField = function (array $payload) use (&$findField, $keys): mixed {
+            foreach ($keys as $key) {
+                if (array_key_exists($key, $payload)) {
+                    return $payload[$key];
+                }
             }
-        }
-        foreach (['transaction', 'data'] as $nested) {
-            if (isset($transaction[$nested]) && is_array($transaction[$nested])) {
-                foreach ($keys as $key) {
-                    if (array_key_exists($key, $transaction[$nested])) {
-                        return $transaction[$nested][$key];
+
+            foreach (['transaction', 'data', 'result'] as $nested) {
+                if (isset($payload[$nested]) && is_array($payload[$nested])) {
+                    $value = $findField($payload[$nested]);
+                    if ($value !== null) {
+                        return $value;
                     }
                 }
             }
-        }
 
-        return null;
+            return null;
+        };
+
+        return $findField($transaction);
     }
 
     // Classifie le résultat : 'success', 'pending' (à réessayer), 'failed',
     // 'amount' (montant insuffisant) ou 'unknown' (transaction introuvable).
     // La validation elle-même applique les changements et envoie l'email.
-    public function confirmFailureReason(Order $order, array $transaction): string
+    public function confirmFailureReason(Order $order, array $transaction, ?string $expectedTransactionId = null): string
     {
+        if ($order->payment_method !== 'kkiapay') {
+            return 'unknown';
+        }
+
         if ($order->payment_status === 'paid') {
             return 'success';
         }
@@ -110,6 +117,14 @@ class KkiaPayService
         $status = strtoupper(trim((string) ($this->transactionField($transaction, ['status']) ?? '')));
         $amount = (int) ($this->transactionField($transaction, ['amount']) ?? 0);
         $txId = $this->transactionField($transaction, ['transactionId', 'transaction_id', 'id']);
+
+        if ($expectedTransactionId !== null && (! is_scalar($txId) || ! hash_equals($expectedTransactionId, (string) $txId))) {
+            Log::warning('KkiaPay : identifiant de transaction différent', [
+                'order' => $order->order_number,
+            ]);
+
+            return 'unknown';
+        }
 
         // Succès : statut SUCCESS + référence + montant couvrant le total (XOF)
         if ($status === 'SUCCESS' && filled($txId) && $amount >= (int) $order->total) {

@@ -57,6 +57,7 @@
 
     <script>
         const verifyUrl = @json(route('payment.verify', $order->order_number));
+        let kkiapayListenersRegistered = false;
 
         function showError(message) {
             const box = document.getElementById('pay-error');
@@ -77,6 +78,26 @@
 
             document.getElementById('pay-btn').disabled = true;
 
+            // Enregistre les écouteurs avant d'ouvrir le widget pour ne pas
+            // manquer le retour de paiement. Ils ne sont ajoutés qu'une fois.
+            if (!kkiapayListenersRegistered) {
+                addSuccessListener((response) => {
+                    const transactionId = response?.transactionId ?? response?.transaction_id;
+                    if (!transactionId) {
+                        showError('KkiaPay n’a pas fourni la référence de transaction.');
+                        return;
+                    }
+
+                    document.getElementById('pay-loading').classList.remove('hidden');
+                    verifyPayment(transactionId, 0);
+                });
+
+                addFailedListener((error) => {
+                    showError((error && error.failureMessage) || 'Le paiement a échoué ou a été annulé.');
+                });
+                kkiapayListenersRegistered = true;
+            }
+
             // Ouvre la fenêtre de paiement KkiaPay (montant en FCFA)
             openKkiapayWidget({
                 amount: {{ (int) $order->total }},
@@ -89,15 +110,8 @@
                 theme: '#0284c7',
             });
 
-            // Succès côté widget : on fait vérifier la transaction par le serveur
-            // (ne jamais faire confiance au seul widget : anti-fraude).
-            // Si KkiaPay n'a pas encore finalisé (Mobile Money en attente),
-            // on revérifie tout seul 3 fois à 4 secondes d'intervalle.
-            addSuccessListener((response) => {
-                document.getElementById('pay-loading').classList.remove('hidden');
-                verifyPayment(response.transactionId, 0);
-            });
-
+            // La confirmation du widget déclenche une vérification serveur.
+            // Un paiement Mobile Money peut encore être en attente quelques secondes.
             async function verifyPayment(transactionId, attempt) {
                 try {
                     const res = await fetch(verifyUrl, {
@@ -131,9 +145,6 @@
                 loading.classList.remove('hidden');
             }
 
-            addFailedListener((error) => {
-                showError((error && error.failureMessage) || 'Le paiement a échoué ou a été annulé.');
-            });
         }
     </script>
 </body>

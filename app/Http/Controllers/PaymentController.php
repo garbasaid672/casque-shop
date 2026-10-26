@@ -52,7 +52,9 @@ class PaymentController extends Controller
             ], 502);
         }
 
-        if ($kkiapay->confirmOrderPayment($order->fresh(), $transaction)) {
+        $reason = $kkiapay->confirmFailureReason($order->fresh(), $transaction, $validated['transactionId']);
+
+        if ($reason === 'success') {
             return response()->json([
                 'ok' => true,
                 'redirect' => route('checkout.success', $order->order_number),
@@ -60,8 +62,6 @@ class PaymentController extends Controller
         }
 
         // Message précis selon la cause (le client réessaie tout seul si en attente)
-        $reason = $kkiapay->confirmFailureReason($order->fresh(), $transaction);
-
         return response()->json([
             'ok' => false,
             'retry' => in_array($reason, ['pending'], true),
@@ -107,7 +107,11 @@ class PaymentController extends Controller
             return response()->json(['ok' => false], 404);
         }
 
-        $kkiapay->confirmOrderPayment($order, $transaction);
+        $reason = $kkiapay->confirmFailureReason($order, $transaction, (string) $transactionId);
+
+        if (in_array($reason, ['pending', 'unknown'], true)) {
+            return response()->json(['ok' => false], 503);
+        }
 
         return response()->json(['ok' => true]);
     }

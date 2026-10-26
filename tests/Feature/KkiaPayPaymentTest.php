@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Mail\PaymentConfirmed;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
-use App\Mail\PaymentConfirmed;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
@@ -120,6 +120,60 @@ class KkiaPayPaymentTest extends TestCase
         });
     }
 
+    public function test_verify_success_with_nested_transaction_data_marks_order_paid(): void
+    {
+        Mail::fake();
+        $product = $this->makeProduct();
+        $this->post(route('checkout.store', $product), $this->orderData());
+        $order = Order::firstOrFail();
+
+        Http::fake([
+            '*transactions/status*' => Http::response([
+                'data' => [
+                    'transaction' => [
+                        'status' => 'SUCCESS',
+                        'amount' => (int) $order->total,
+                        'transaction_id' => 'TX-NESTED',
+                    ],
+                ],
+            ], 200),
+        ]);
+
+        $response = $this->postJson(route('payment.verify', $order->order_number), [
+            'transactionId' => 'TX-NESTED',
+        ]);
+
+        $response->assertOk();
+        $response->assertJsonPath('ok', true);
+        $this->assertSame('paid', $order->fresh()->payment_status);
+        $this->assertSame('TX-NESTED', $order->fresh()->payment_reference);
+    }
+
+    public function test_verify_rejects_a_different_transaction_id(): void
+    {
+        Mail::fake();
+        $product = $this->makeProduct();
+        $this->post(route('checkout.store', $product), $this->orderData());
+        $order = Order::firstOrFail();
+
+        Http::fake([
+            '*transactions/status*' => Http::response([
+                'status' => 'SUCCESS',
+                'amount' => (int) $order->total,
+                'transactionId' => 'TX-OTHER',
+            ], 200),
+        ]);
+
+        $response = $this->postJson(route('payment.verify', $order->order_number), [
+            'transactionId' => 'TX-SUBMITTED',
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonPath('ok', false);
+        $this->assertSame('pending', $order->fresh()->payment_status);
+        Mail::assertNotSent(PaymentConfirmed::class);
+    }
+
     public function test_verify_with_wrong_amount_keeps_order_pending(): void
     {
         Mail::fake();
@@ -166,6 +220,29 @@ class KkiaPayPaymentTest extends TestCase
 
         $response->assertOk();
         $this->assertSame('paid', $order->fresh()->payment_status);
+    }
+
+    public function test_webhook_requests_retry_while_payment_is_pending(): void
+    {
+        $product = $this->makeProduct();
+        $this->post(route('checkout.store', $product), $this->orderData());
+        $order = Order::firstOrFail();
+
+        Http::fake([
+            '*transactions/status*' => Http::response([
+                'status' => 'PENDING',
+                'amount' => (int) $order->total,
+                'transactionId' => 'TX-PENDING',
+            ], 200),
+        ]);
+
+        $response = $this->postJson('/kkiapay/webhook', [
+            'transactionId' => 'TX-PENDING',
+            'data' => $order->order_number,
+        ]);
+
+        $response->assertStatus(503);
+        $this->assertSame('pending', $order->fresh()->payment_status);
     }
 
     public function test_verify_unknown_transaction_is_rejected_not_error(): void
