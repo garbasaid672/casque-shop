@@ -539,7 +539,7 @@ $icons = ['#hp', '#bud', '#spk'];
 />
 <span class="story-caption" aria-hidden="true">PHOTOS STOCK · UNSPLASH</span>
 </div>
-<p class="sr-only">Animation illustrative en quatre étapes : le client ouvre la boutique sur son téléphone, choisit un casque, règle sa commande, puis reçoit son colis des mains du livreur à moto. Les scènes et les données du tableau de bord sont des exemples.</p>
+<p class="sr-only">Animation illustrative en quatre étapes : le client ouvre la boutique sur son téléphone, choisit un casque de son choix, règle sa commande, puis reçoit son colis des mains du livreur à moto. Les scènes et les données du tableau de board sont des exemples.</p>
 </div>
 </section>
 @endif
