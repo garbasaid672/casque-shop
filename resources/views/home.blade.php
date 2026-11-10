@@ -454,7 +454,7 @@ $icons = ['#hp', '#bud', '#spk'];
 
 @if($newProducts->isNotEmpty())
 <section id="nouveautes">
-<div class="head"><h2>Nouveautés</h2><a href="{{ route('shop.index') }}">Voir tout</a></div>
+<div class="head"><h2>Nouveautés</h2><a href="{{ route('shop.index') }}">Voir tout les nouveautés</a></div>
 <div class="products">
 @foreach($newProducts as $product)
 <article class="card">
